@@ -1,0 +1,17 @@
+<ion-content>
+  <div class="login-container">
+    <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm">
+      <ion-item>
+        <ion-input type="text" [(ngModel)]="username" name="username" placeholder="Username" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="password" [(ngModel)]="password" name="password" placeholder="Password" required></ion-input>
+      </ion-item>
+      <ion-button expand="full" type="submit" [disabled]="!registerForm.form.valid">Login</ion-button>
+    </form>
+    <!-- Affichage du message d'erreur -->
+    <p *ngIf="errorMessage">{{ errorMessage }}</p>
+    <!-- Lien vers la page d'inscription -->
+    <p>Vous n'avez pas encore de compte ? </p><a routerLink="/register">Créer un compte</a>
+  </div>
+</ion-content>

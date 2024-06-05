@@ -26,9 +26,9 @@ def register():
         user = User.query.filter_by(username=username).first()
         if user:
             return 'Username already exists', 409
-        password = generate_password_hash(password)
+        password_hash = generate_password_hash(password)
         try:
-            user = User(username=username, password=password)
+            user = User(username=username, _password=password_hash)
             db.session.add(user)
             db.session.commit()
         except Exception as e:
@@ -40,13 +40,20 @@ def register():
 
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.form['username']
-    password = request.form['password']
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
     user = User.query.filter_by(username=username).first()
-    if user and check_password_hash(user._password, password):  # use user._password instead of user.password
+    if user and check_password_hash(user._password, password):
         session['user_id'] = user.id
-        return redirect(url_for('index'))
-    return 'Invalid username or password'
+        return jsonify({'message': 'Logged in successfully'}), 200
+    else:
+        return 'Invalid username or password', 401  # Unauthorized
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    return jsonify({'message': 'Logged out successfully'}), 200
 
 if __name__ == '__main__':
     with app.app_context():
