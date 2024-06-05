@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { FormsModule } from '@angular/forms'; // Importez FormsModule ici
-
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http'; // Ajoutez cette ligne
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
@@ -18,7 +18,8 @@ import { RegisterComponent } from './register/register.component';
     BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule,
-    FormsModule // Ajoutez FormsModule à la liste des imports
+    FormsModule,
+    HttpClientModule // Ajoutez HttpClientModule à la liste des imports
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
