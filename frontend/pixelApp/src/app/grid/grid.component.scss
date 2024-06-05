@@ -1,14 +1,16 @@
 .grid {
-display: flex;
-flex-direction: column;
-}
-
-.row {
-display: flex;
-}
-
-.cell {
-width: 1em;
-height: 1em;
-border: 1px solid #ddd;
-}
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    width: 100%;
+  }
+  
+  .row {
+    display: flex;
+  }
+  
+  .cell {
+    width: 1em;
+    height: 1em;
+    border: 1px solid #ddd;
+  }

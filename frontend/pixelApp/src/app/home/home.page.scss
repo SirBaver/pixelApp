@@ -1,7 +1,7 @@
 #container {
   text-align: center;
 
-  position: absolute;
+  /*position: absolute;*/
   left: 0;
   right: 0;
   top: 50%;
@@ -26,13 +26,43 @@
   text-decoration: none;
 }
 
-.grid-container {
-  position: absolute;
-  top: 100%;
-  height: 80%;
-  width: 80%;
-  left: 10%;
+ion-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.title-container {
+  width: 100%;
+  height: 10vh; /* Ajustez cette valeur selon vos besoins */
+  min-height: 50px; /* Hauteur minimale */
+  max-height: 100px; /* Hauteur maximale */
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #8c8c8c;
+}
+
+.info-container {
+  /*position: sticky;
+  top: 0;*/
+  width: 100%;
+  height: 55vh; /* Ajustez cette valeur selon vos besoins */
+  min-height: 75px; /* Hauteur minimale */
+  max-height: 125px; /* Hauteur maximale */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #d72929;
+}
+
+#grid-container {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 19vh);
+  min-height: 200px;
+  max-height: 850px;
+  display: flex;
+  justify-content: flex-start; /* aligne le contenu à gauche */
+  align-items: flex-start; /* aligne le contenu en haut */
+  background-color: #2fd729;
 }
