@@ -35,3 +35,34 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+:root {
+    --toolbar-height: 56px; /* Hauteur initiale, ajustez selon le design */
+  }
+
+/* Valeurs par défaut (mode clair) */
+body.light {
+    --ion-background-color: #ffffff;
+    --ion-text-color: #000000;
+    --ion-toolbar-background: #82c2f0; /* Couleur de fond de la toolbar en mode clair */
+    --ion-toolbar-text-color: #ffffff; /* Couleur du texte de la toolbar en mode clair */
+}
+
+/* Mode sombre */
+body.dark {
+    --ion-background-color: #ef0707;
+    --ion-text-color: #ffffff;
+    --ion-toolbar-background: #000000bb; /* Couleur de fond de la toolbar en mode sombre */
+    --ion-toolbar-text-color: #ffffff; /* Couleur du texte de la toolbar en mode sombre */
+}
+
+/* Appliquer les variables aux éléments de la toolbar */
+ion-toolbar {
+    background-color: var(--ion-toolbar-background);
+    color: var(--ion-toolbar-text-color);
+}
+
+.title-link {
+    color: var(--ion-toolbar-text-color);
+    text-decoration: none;
+}

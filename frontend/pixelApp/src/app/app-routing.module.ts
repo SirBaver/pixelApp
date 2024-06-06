@@ -16,7 +16,11 @@ const routes: Routes = [
   { 
     path : 'login', component: LoginComponent}, // Ajoutez une route pour le LoginComponent
   { 
-    path: 'register', component: RegisterComponent }, // Ajoutez une route pour le RegisterComponent
+    path: 'register', component: RegisterComponent },   {
+    path: 'preference',
+    loadChildren: () => import('./preference/preference.module').then( m => m.PreferencePageModule)
+  },
+// Ajoutez une route pour le RegisterComponent
 ];
 
 @NgModule({

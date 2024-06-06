@@ -1,11 +1,14 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar class="custom-toolbar">
     <ion-title>
       <a routerLink="/home" class="title-link">The Pixel Game</a>
     </ion-title>
     <ion-buttons slot="end">
       <ion-button routerLink="/home">Home</ion-button>
       <ion-button routerLink="/login">Login</ion-button>
+      <ion-button (click)="toggleDarkMode()">
+        <ion-icon [name]="darkMode ? 'moon' : 'sunny'"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

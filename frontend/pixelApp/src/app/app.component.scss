@@ -1,9 +1,5 @@
-.title-link {
-    color: white !important;
-    text-decoration: none !important;
-}
-
-ion-title .title-link, ion-title .title-link:visited, ion-title .title-link:hover, ion-title .title-link:active {
-    color: white !important;
-    text-decoration: none !important;
-}
+.custom-toolbar {
+    min-height: var(--toolbar-height);
+    background-color: var(--ion-toolbar-background) !important;
+    color: var(--ion-toolbar-text-color) !important;
+  }

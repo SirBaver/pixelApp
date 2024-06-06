@@ -1,20 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { HomePage } from './home.page';
-
+import { IonicModule } from '@ionic/angular';
 import { HomePageRoutingModule } from './home-routing.module';
-import { GridComponent } from '../grid/grid.component'; // Ajoutez cette ligne
-
+import { HomePage } from './home.page';
+import { TranslateModule } from '@ngx-translate/core'; // Importez TranslateModule
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    TranslateModule // Ajoutez TranslateModule ici
   ],
-  declarations: [HomePage, GridComponent]
+  declarations: [HomePage]
 })
 export class HomePageModule {}

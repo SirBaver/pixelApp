@@ -31,11 +31,16 @@ ion-content {
   flex-direction: column;
 }
 
+:root {
+  --header-height: 60px; /* Hauteur de votre header */
+}
+
 .title-container {
+  margin-top: var(--toolbar-height);
   width: 100%;
-  height: 10vh; /* Ajustez cette valeur selon vos besoins */
-  min-height: 50px; /* Hauteur minimale */
-  max-height: 100px; /* Hauteur maximale */
+  height: 10vh;
+  min-height: 50px;
+  max-height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
