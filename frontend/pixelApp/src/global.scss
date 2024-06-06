@@ -38,6 +38,8 @@
 
 :root {
     --toolbar-height: 56px; /* Hauteur initiale, ajustez selon le design */
+    --popover-background-color: #ffffff; /* Couleur de fond du popover par défaut */
+    --popover-text-color: #000000; /* Couleur du texte du popover par défaut */
   }
 
 /* Valeurs par défaut (mode clair) */
@@ -46,6 +48,8 @@ body.light {
     --ion-text-color: #000000;
     --ion-toolbar-background: #82c2f0; /* Couleur de fond de la toolbar en mode clair */
     --ion-toolbar-text-color: #ffffff; /* Couleur du texte de la toolbar en mode clair */
+    --popover-background-color: #82c2f0; /* Couleur de fond du popover en mode clair */
+    --popover-text-color: #ffffff; /* Couleur du texte du popover en mode clair */
 }
 
 /* Mode sombre */
@@ -54,6 +58,8 @@ body.dark {
     --ion-text-color: #ffffff;
     --ion-toolbar-background: #000000bb; /* Couleur de fond de la toolbar en mode sombre */
     --ion-toolbar-text-color: #ffffff; /* Couleur du texte de la toolbar en mode sombre */
+    --popover-background-color: #000000bb; /* Couleur de fond du popover en mode sombre */
+    --popover-text-color: #ffffff; /* Couleur du texte du popover en mode sombre */
 }
 
 /* Appliquer les variables aux éléments de la toolbar */
@@ -65,4 +71,20 @@ ion-toolbar {
 .title-link {
     color: var(--ion-toolbar-text-color);
     text-decoration: none;
+}
+
+/* Appliquer les variables au style du popover */
+.popover-content {
+    background-color: var(--popover-background-color);
+    color: var(--popover-text-color);
+}
+
+/* Utilisation des variables CSS pour le style du popover */
+.custom-popover-list .custom-popover-item {
+    --background: var(--popover-background-color);
+    --color: var(--popover-text-color);
+  }
+
+ion-list {
+    background-color: var(--popover-background-color) !important;
 }

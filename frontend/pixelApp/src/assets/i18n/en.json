@@ -1,3 +1,7 @@
 {
-    "READY_TO_PLACE_PIXEL": "Ready to place pixel ?"
+    "LOGIN_SIGN_IN": "Login / Sign in",
+    "PROFILE": "Profile",
+    "PREFERENCES": "Preferences",
+    "LOG_OUT": "Log Out",
+    "READY_TO_PLACE_PIXEL": "Ready to place pixel?"
 }

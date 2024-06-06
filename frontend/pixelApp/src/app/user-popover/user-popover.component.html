@@ -1,0 +1,6 @@
+<ion-list class="custom-popover-list">
+  <ion-item *ngIf="!isLoggedIn" (click)="loginDialog()" class="custom-popover-item clickable-item">{{ 'LOGIN_SIGN_IN' | translate }}</ion-item>
+  <ion-item *ngIf="isLoggedIn" (click)="profile()" class="custom-popover-item clickable-item">{{ 'PROFILE' | translate }}</ion-item>
+  <ion-item *ngIf="isLoggedIn" (click)="preferences()" class="custom-popover-item clickable-item">{{ 'PREFERENCES' | translate }}</ion-item>
+  <ion-item *ngIf="isLoggedIn" (click)="logout()" class="custom-popover-item clickable-item">{{ 'LOG_OUT' | translate }}</ion-item>
+</ion-list>

@@ -5,7 +5,13 @@
     </ion-title>
     <ion-buttons slot="end">
       <ion-button routerLink="/home">Home</ion-button>
-      <ion-button routerLink="/login">Login</ion-button>
+      <ion-button (click)="openUserPopover($event)">
+        <ion-icon slot="icon-only" name="person-circle"></ion-icon>
+      </ion-button>
+      <!-- Bouton de sélection de langue ajouté ici -->
+      <ion-button (click)="openLanguagePopover($event)">
+        <ion-icon slot="icon-only" name="globe"></ion-icon>
+      </ion-button>
       <ion-button (click)="toggleDarkMode()">
         <ion-icon [name]="darkMode ? 'moon' : 'sunny'"></ion-icon>
       </ion-button>

@@ -2,6 +2,10 @@ import { Component, Inject, Renderer2 } from '@angular/core';
 import { DarkModeService } from './services/dark-mode.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DOCUMENT } from '@angular/common';
+// Importez PopoverController et UserPopoverComponent
+import { PopoverController } from '@ionic/angular';
+import { UserPopoverComponent } from './user-popover/user-popover.component';
+import { LanguagePopoverComponent } from './language-popover/language-popover.component';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +19,9 @@ export class AppComponent {
     private darkModeService: DarkModeService, 
     private translate: TranslateService,
     private renderer: Renderer2,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    // Ajoutez PopoverController au constructeur
+    private popoverController: PopoverController
   ) {
     this.darkMode = this.darkModeService.isDarkMode();
     this.darkModeService.setDarkMode(this.darkMode); // Appliquer le mode au démarrage
@@ -39,5 +45,25 @@ export class AppComponent {
       this.renderer.removeClass(this.document.body, 'dark');
       this.renderer.addClass(this.document.body, 'light'); // Seulement si vous utilisez une classe 'light' dans votre CSS
     }
-}
+  }
+
+  // Ajoutez la méthode openUserPopover ici
+  async openUserPopover(event: any) {
+    const popover = await this.popoverController.create({
+      component: UserPopoverComponent,
+      event: event,
+      translucent: true
+    });
+    return await popover.present();
+  }
+
+  // Ajoutez la méthode openLanguagePopover ici
+  async openLanguagePopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: LanguagePopoverComponent,
+      event: ev,
+      translucent: true
+    });
+    return await popover.present();
+  }
 }

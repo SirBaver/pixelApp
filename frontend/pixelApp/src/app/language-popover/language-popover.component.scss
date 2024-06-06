@@ -1,0 +1,6 @@
+/* Utilisation des variables CSS pour le style du popover */
+.custom-popover-list .custom-popover-item {
+    --background: var(--popover-background-color);
+    --ion-background-color: var(--popover-background-color);
+    --color: var(--popover-text-color);
+  }
