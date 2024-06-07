@@ -1,92 +1,77 @@
-ion-content {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  padding: 0;
-  margin: 0;
-  overflow: hidden; /* Empêche le défilement de ion-content */
+:root {
+  --toolbar-height: 56px;
 }
 
-.phantom-container {
+.box {
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin: 2px;
+}
+
+.box-1 {
+  background: #488aff; /* Blue */
+}
+
+.box-2 {
+  background: #ff5733; /* Red */
+}
+
+.box-3 {
+  background: #33ff57; /* Green */
+}
+
+.box-4 {
+  background: #ff33a1; /* Pink */
+}
+
+.box-5 {
+  background: #a133ff; /* Purple */
+}
+
+.box-6 {
+  background: #33ffa1; /* Light Green */
+}
+
+/* Default heights for small screens */
+.tall-box {
+  height: calc(100vh - calc(var(--toolbar-height) * 5));
+}
+
+.medium-box {
+  height: calc(var(--toolbar-height) * 2.5);
+}
+
+.small-box {
   height: var(--toolbar-height);
-  background-color: #00000000; /* Couleur transparente */
-
 }
 
-.title-container {
-  width: 98%;
-  margin-left: 1%;
-  margin-right: 1%;
-  height: var(--toolbar-height);
-  padding-bottom : 0.5%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #8c8c8c;
-  border : 3px solid #68ee0f;
-  position: relative;
-  z-index: 1;
-}
+/* Adjust heights for medium screens */
+@media (min-width: 768px) {
+  .tall-box {
+    height: calc(80vh - calc(var(--toolbar-height) * 2));
+  }
 
-.info-container {
-  width: 98%;
-  margin-left: 1%;
-  margin-right: 1%;
-  height: 20vh;
-  min-height :calc(1.4 * var(--toolbar-height));
-  max-height :calc(1.75 * var(--toolbar-height));
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #d72929;
-  border : 3px solid #017cbe;
-  position: sticky;
-  bottom: 0;
-  z-index: 2;
-  /* Définit la hauteur maximale par défaut */
+  .medium-box {
+    height: calc(var(--toolbar-height) * 2);
+  }
 
-  
-}
-
-/* Media query pour ajuster la hauteur sur les écrans plus petits */
-@media (max-width: 752px) {
-  .info-container {
-    /* Ajuste la hauteur vers la hauteur minimale lorsque la fenêtre est réduite */
+  .small-box {
     height: var(--toolbar-height);
   }
 }
 
-// Définition des variables
-$base-height: 100vh;
-$subtract-min: 56px * 2.4;
-$subtract-max: 56px * 5;
-$min-height: calc(#{$base-height} - #{$subtract-min});
-$max-height: calc(#{$base-height} - #{$subtract-max});
+/* Adjust heights for large screens */
+@media (min-width: 1200px) {
+  .tall-box {
+    height: calc(100vh - calc(var(--toolbar-height) * 3.5));
+  }
 
-.flex-container {
-  width: 98%;
-  margin-left: 1%;
-  margin-right: 1%;
-  min-height: #{$min-height}; /* Utilisation de la variable pour la hauteur minimale */
-  max-height: #{$max-height}; /* Utilisation de la variable pour la hauteur maximale */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden; /* Empêche le défilement interne */
-  background-color: #c829d7;
-  border: 3px solid #32de0f;
-  box-sizing: border-box;
-  z-index: 0;
+  .medium-box {
+    height: 100px;
+  }
+
+  .small-box {
+    height: var(--toolbar-height);
+  }
 }
-
-.grid-container {
-  width: 70%; /* Largeur fixe de 70% du conteneur parent */
-  padding-bottom: calc(70% * 3 / 4); /* Maintien du ratio 4:3 */
-  background-color: #2196F3;
-  border: 3px solid #4CAF50;
-  position: absolute; /* Positionnement absolu pour être contenu dans le parent */
-  top: 50%; /* Centrage vertical */
-  left: 50%; /* Centrage horizontal */
-  transform: translate(-50%, -50%); /* Ajustement pour centrer complètement */
-}
-

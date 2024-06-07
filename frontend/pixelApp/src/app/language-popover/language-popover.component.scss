@@ -1,6 +1,38 @@
-/* Utilisation des variables CSS pour le style du popover */
-.custom-popover-list .custom-popover-item {
-    --background: var(--popover-background-color);
-    --ion-background-color: var(--popover-background-color);
-    --color: var(--popover-text-color);
+.custom-popover-list {
+  --background: var(--popover-background-color);
+  padding: 10px;
+  //border-radius: 10px;
+}
+
+.custom-popover-item {
+  --background: var(--popover-background-color);
+  --ion-background-color: var(--popover-background-color);
+  --color: var(--popover-text-color);
+  color: var(--popover-text-color);
+  font-size: 16px;
+  padding: 15px 10px;
+  margin: 5px 0;
+  border-radius: 7px;
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    --background: var(--popover-hover-background-color);
   }
+
+  &:focus {
+    --background: var(--popover-focus-background-color);
+    outline: none;
+  }
+
+  ion-label {
+    margin-left: 10px;
+  }
+}
+
+/* Add styles for the popover itself */
+ion-popover {
+  --background: var(--popover-background-color);
+  border-radius: 10px;
+  width: 100px;
+  max-width: 300px;
+}

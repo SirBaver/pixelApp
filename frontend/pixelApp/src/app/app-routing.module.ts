@@ -19,7 +19,15 @@ const routes: Routes = [
     path: 'register', component: RegisterComponent },   {
     path: 'preference',
     loadChildren: () => import('./preference/preference.module').then( m => m.PreferencePageModule)
+  },  {
+    path: 'main',
+    loadChildren: () => import('./main/main.module').then( m => m.MainPageModule)
   },
+  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+  },
+
 // Ajoutez une route pour le RegisterComponent
 ];
 

@@ -1,0 +1,44 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Grille Réactive Imbriquée</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="6" size-lg="4">
+        <div class="box box-1">Colonne 1</div>
+      </ion-col>
+      <ion-col size="12" size-md="6" size-lg="4">
+        <div class="box box-2">Colonne 2</div>
+      </ion-col>
+      <ion-col size="12" size-md="12" size-lg="4">
+        <div class="box box-3">
+          Colonne 3
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12" size-md="6">
+                <div class="box box-4">Colonne 3.1</div>
+              </ion-col>
+              <ion-col size="12" size-md="6">
+                <div class="box box-5">Colonne 3.2</div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12" size-md="4">
+                <div class="box box-6">Colonne 3.3</div>
+              </ion-col>
+              <ion-col size="12" size-md="4">
+                <div class="box box-7">Colonne 3.4</div>
+              </ion-col>
+              <ion-col size="12" size-md="4">
+                <div class="box box-8">Colonne 3.5</div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
