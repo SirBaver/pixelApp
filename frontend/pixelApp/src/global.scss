@@ -38,34 +38,49 @@
 
 :root {
     --toolbar-height: 56px; /* Hauteur initiale, ajustez selon le design */
+    --content-top-padding: var(--header-height); /* Padding top pour compenser la toolbar */
     --popover-background-color: #ffffff; /* Couleur de fond du popover par défaut */
-    --popover-text-color: #000000; /* Couleur du texte du popover par défaut */
-  }
+    --content-top-padding: calc(var(--header-height) + var(--title-height)); /* Padding top pour compenser la toolbar et le title-container */
+    --info-height: 5vh; /* Hauteur de l'info-container */
+}
 
 /* Valeurs par défaut (mode clair) */
 body.light {
     --ion-background-color: #ffffff;
     --ion-text-color: #000000;
-    --ion-toolbar-background: #82c2f0; /* Couleur de fond de la toolbar en mode clair */
+    --ion-toolbar-background: #dca545; /* Couleur de fond de la toolbar en mode clair */
     --ion-toolbar-text-color: #ffffff; /* Couleur du texte de la toolbar en mode clair */
     --popover-background-color: #82c2f0; /* Couleur de fond du popover en mode clair */
     --popover-text-color: #ffffff; /* Couleur du texte du popover en mode clair */
+    --login-container-background-color: #dbd8d8; /* Couleur de fond du conteneur de connexion en mode clair */
+    --login-container-text-color: #000000; /* Couleur du texte du conteneur de connexion en mode clair */
+    --input-background-color: #ffffff; /* Couleur de fond des champs de saisie */
+    --input-text-color: #000000; /* Couleur du texte des champs de saisie */
 }
 
 /* Mode sombre */
 body.dark {
-    --ion-background-color: #ef0707;
+    --ion-background-color: #1e1e1e;
     --ion-text-color: #ffffff;
     --ion-toolbar-background: #000000bb; /* Couleur de fond de la toolbar en mode sombre */
     --ion-toolbar-text-color: #ffffff; /* Couleur du texte de la toolbar en mode sombre */
     --popover-background-color: #000000bb; /* Couleur de fond du popover en mode sombre */
     --popover-text-color: #ffffff; /* Couleur du texte du popover en mode sombre */
+    --login-container-background-color: #000000; /* Couleur de fond du conteneur de connexion en mode sombre */
+    --login-container-text-color: #ffffff; /* Couleur du texte du conteneur de connexion en mode sombre */
+    --input-background-color: #1e1e1e; /* Couleur de fond des champs de saisie */
+    --input-text-color: #ffffff; /* Couleur du texte des champs de saisie */
 }
 
 /* Appliquer les variables aux éléments de la toolbar */
 ion-toolbar {
     background-color: var(--ion-toolbar-background);
     color: var(--ion-toolbar-text-color);
+}
+
+ion-input {
+    --background: var(--input-background-color);
+    --color: var(--input-text-color);
 }
 
 .title-link {
@@ -88,3 +103,20 @@ ion-toolbar {
 ion-list {
     background-color: var(--popover-background-color) !important;
 }
+
+/* Appliquer les variables aux classes */
+.flex-center {
+    background-color: var(--flex-center-background-color);
+    color: var(--flex-center-text-color);
+}
+
+.login-container {
+    background-color: var(--login-container-background-color);
+    color: var(--login-container-text-color);
+}
+
+/*.title-container {
+    background-color: var(--ion-toolbar-background);
+    color: var(--ion-toolbar-text-color);
+}*/
+

@@ -1,21 +1,15 @@
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <!--
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-    -->
-  </ion-header>
+  <div class="phantom-container"></div>
   <div class="title-container">
-    <h1 id="title">Pixel Art</h1>
+    <h1 id="title">{{ 'READY_TO_PLACE_PIXEL' | translate }}</h1>
   </div>
   <div class="info-container">
     <!-- Ajoutez vos boutons et informations ici -->
     <h1 id="title">{{ 'READY_TO_PLACE_PIXEL' | translate }}</h1>
   </div>
-  <div id="grid-container">
-    <!--
-    <app-grid></app-grid> 
-    -->
+  <div class="flex-container">
+    <div class="grid-container">
+      <!-- <app-grid></app-grid> -->
+    </div>
   </div>
 </ion-content>

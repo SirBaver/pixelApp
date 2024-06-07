@@ -1,7 +1,15 @@
 {
     "LOGIN_SIGN_IN": "Login / Sign in",
+    "USERNAME_ZONE": "Username",
+    "PASSWORD_ZONE": "Password",
+    "LOGIN_BUTTON": "Login",
+    "SIGN_UP_BUTTON": "Sign up",
+    "FORGOT_PASSWORD": "Forgot password",
+    "NO_ACCOUNT": "Don't have an account?",
+    "SIGN_UP_NOW": "Create an account",
     "PROFILE": "Profile",
     "PREFERENCES": "Preferences",
     "LOG_OUT": "Log Out",
-    "READY_TO_PLACE_PIXEL": "Ready to place pixel?"
+    "READY_TO_PLACE_PIXEL": "Ready to place a pixel?",
+    "LOGIN_TITLE": "Log In"
 }
