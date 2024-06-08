@@ -5,8 +5,10 @@
 .box {
   color: white;
   text-align: center;
-  padding: 20px;
-  margin: 2px;
+  margin: 1px;
+  display: flex;
+  align-items: center; /* Center content vertically */
+  justify-content: center; /* Center content horizontally */
 }
 
 .box-1 {
@@ -33,38 +35,97 @@
   background: #33ffa1; /* Light Green */
 }
 
-/* Default heights for small screens */
+.box-7 {
+  background: #ff5733; /* Orange */
+}
+
+.box-8 {
+  background: #58ff33; /* Orange */
+}
+
+.box-9 {
+  background: #3336ff; /* Orange */
+}
+
+/* Default heights for smartphone screens */
 .tall-box {
-  height: calc(100vh - calc(var(--toolbar-height) * 5));
+  height: calc(100vh - calc(var(--toolbar-height) * 2.8));
 }
 
 .medium-box {
-  height: calc(var(--toolbar-height) * 2.5);
+  height: calc(var(--toolbar-height) * 2);
 }
 
 .small-box {
   height: var(--toolbar-height);
 }
 
+.grid-box {
+  height: 70vh;
+}
+
+.color-box {
+  height: 10vh;
+  display: none;
+}
+
+.pub-box {
+  height: 13vh;
+}
+
+.sidebar-box {
+  height: 20vh;
+  display: none;
+}
+.compteur-box {
+  height: 15vh;
+}
+
+.shop-box {
+  height: 15vh;
+}
+
 /* Adjust heights for medium screens */
 @media (min-width: 768px) {
   .tall-box {
-    height: calc(80vh - calc(var(--toolbar-height) * 2));
-  }
-
-  .medium-box {
-    height: calc(var(--toolbar-height) * 2);
+    height: calc(80vh - calc(var(--toolbar-height) * 0.42));
   }
 
   .small-box {
     height: var(--toolbar-height);
+  }
+
+  .grid-box {
+    height: 72vh;
+  }
+  
+  .color-box {
+    height: 13vh;
+    display: none;
+  }
+
+  .pub-box {
+    height: 15vh;
+  }
+
+  .sidebar-box {
+    height: calc(80vh - calc(var(--toolbar-height) * 0.42));
+    display: block;
+  }
+
+  .compteur-box {
+    height: 35vh;
+  }
+  
+  .shop-box {
+    height: 35vh;
   }
 }
 
 /* Adjust heights for large screens */
 @media (min-width: 1200px) {
   .tall-box {
-    height: calc(100vh - calc(var(--toolbar-height) * 3.5));
+    height: calc(100vh - calc(var(--toolbar-height) * 1));
   }
 
   .medium-box {
@@ -74,4 +135,30 @@
   .small-box {
     height: var(--toolbar-height);
   }
+
+  .grid-box {
+    height: 68vh;
+  }
+  
+  .color-box {
+    height: 10vh;
+    display: block;
+  }
+
+  .pub-box {
+    height: 20vh;
+  }
+  .sidebar-box {
+    height: calc(100vh - calc(var(--toolbar-height) * 1));
+    display: block;
+  }
+
+  .compteur-box {
+    height: 55vh;
+  }
+  
+  .shop-box {
+    height: 18vh;
+  }
 }
+

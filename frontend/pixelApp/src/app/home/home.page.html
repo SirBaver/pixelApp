@@ -6,28 +6,49 @@
 
 <ion-content [fullscreen]="true">
   <ion-grid>
-    <ion-row>
-      <ion-col size="12">
+    <ion-row data-label="top-locate">
+      <ion-col size="12" data-label="title">
         <div class="box box-1 small-box">{{ 'READY_TO_PLACE_PIXEL' | translate }}</div>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col size="12" size-md="6">
-        <div class="box box-2 medium-box">Compteur de pixel</div>
+    <ion-row data-label="main-locate">
+      <ion-col size="12" size-md="10" size-lg="10" data-label="grid-component">
+        <div class="box box-5 tall-box" data-label="grid">
+          <ion-grid data-label="grid">
+            <ion-row data-label="grid-box">
+              <ion-col sizer="12">
+                <div class="box box-7 grid-box">Grille de pixel</div>
+              </ion-col>
+            </ion-row>
+            <ion-row data-label="color-box">
+              <ion-col size="12">
+                <div class="box box-8 color-box">"Pixel 1"</div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
       </ion-col>
-      <ion-col size="12" size-md="6">
-        <div class="box box-3 medium-box">Boutique</div>
+      <ion-col size="12" size-md="2" size-lg="2" data-label="info-component">
+        <div class="box box-9 sidebar-box">
+          <ion-grid data-label="info-component">
+            <ion-row data-label="shop">
+              <ion-col size="6" size-md="12" size-lg="12">
+                <div class="box box-2 shop-box">Boutique</div>
+              </ion-col>
+              <ion-col size="6" size-md="12" size-lg="12">
+                <div class="box box-3 compteur-box">Compteur de pixel</div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col size="1" size-md="2" size-lg="3">
-        <div class="box box-4 tall-box">PUB</div>
+    <ion-row data-label="pub-locate">
+      <ion-col size="12" size-md="6" size-lg="6">
+        <div class="box box-4 pub-box">PUB 1</div>
       </ion-col>
-      <ion-col size="10" size-md="8" size-lg="6">
-        <div class="box box-5 tall-box">{{ 'READY_TO_PLACE_PIXEL' | translate }}</div>
-      </ion-col>
-      <ion-col size="1" size-md="2" size-lg="3">
-        <div class="box box-6 tall-box">PUB</div>
+      <ion-col size="12" size-md="6" size-lg="6">
+        <div class="box box-6 pub-box">PUB 2</div>
       </ion-col>
     </ion-row>
   </ion-grid>
