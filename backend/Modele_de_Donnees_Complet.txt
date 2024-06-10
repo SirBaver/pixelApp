@@ -1,0 +1,160 @@
+
+Modèle de Données Complet
+
+1. Table Users
+
+| Column                   | Type        | Null | Length | Key | Description                                |
+|--------------------------|-------------|------|--------|-----|--------------------------------------------|
+| id                       | STRING      | no   |        | PK  | Identifiant unique pour chaque utilisateur |
+| google_id                | STRING      | yes  | 255    |     | Identifiant unique Google                  |
+| apple_id                 | STRING      | yes  |        |     | Identifiant unique Apple                   |
+| mail                     | STRING      | no   | 255    |     | Adresse email                              |
+| password                 | STRING      | yes  |        |     | Mot de passe haché                         |
+| username                 | STRING      | no   | 26     |     | Nom complet                                |
+| profile_picture          | STRING      | yes  |        |     | URL de la photo de profil                  |
+| provider                 | STRING      | yes  |        |     | Méthode d'authentification                 |
+| is_verified              | BOOLEAN     | no   |        |     | Statut de vérification du compte           |
+| verification_token       | STRING      | yes  |        |     | Jeton de validation                        |
+| reset_token              | STRING      | yes  |        |     | Jeton de réinitialisation                  |
+| reset_token_expiration   | DATETIME    | yes  |        |     | Expiration du jeton de réinitialisation    |
+| is_premium               | BOOLEAN     | no   |        |     | Statut premium                             |
+| created_at               | DATETIME    | no   |        |     | Date de création du compte                 |
+| updated_at               | DATETIME    | no   |        |     | Date de la dernière mise à jour            |
+| last_connection          | DATETIME    | no   |        |     | Date de la dernière connexion              |
+| pixel_stock              | INTEGER     | no   |        |     | Nb de pixel disponibles pour l'utilisateur |
+| is_premium               | BOOLEAN     | no   |        |     | Statut premium du compte                   |
+| 
+
+2. Table UserPixels -- SUPPRESSION
+
+| Column    | Type    | Null | Length | Key | Description                      |
+|-----------|---------|------|--------|-----|----------------------------------|
+| id        | UUID    | no   |        | PK  | Identifiant unique               |
+| user_id   | STRING  | no   |        | FK  | Identifiant unique de l'utilisateur |
+| pixels    | INTEGER | no   |        |     | Nombre total de pixels en stock  |
+
+3. Table UserIdle -- SUPPRESSION
+
+| Column           | Type     | Null | Length | Key | Description                            |
+|------------------|----------|------|--------|-----|----------------------------------------|
+| id               | UUID     | no   |        | PK  | Identifiant unique                     |
+| user_id          | STRING   | no   |        | FK  | Identifiant unique de l'utilisateur    |
+| last_connection  | DATETIME | no   |        |     | Date et heure de la dernière connexion |
+| gain_ratio       | FLOAT    | no   |        |     | Ratio de gain de pixels par idle       |
+
+4. Table UserAds
+
+| Column        | Type     | Null | Length | Key | Description                               |
+|---------------|----------|------|--------|-----|-------------------------------------------|
+| id            | UUID     | no   |        | PK  | Identifiant unique                        |
+| user_id       | UUID     | no   |        | FK  | Identifiant unique de l'utilisateur       |
+| ads_watched   | INTEGER  | no   |        |     | Nombre de pubs regardées dans 24h         |
+| last_ad_watch | DATETIME | no   |        |     | Date et heure de la dernière pub regardée |
+
+
+5. Table UserPurchases
+
+| Column         | Type     | Null | Length | Key | Description                            |
+|----------------|----------|------|--------|-----|----------------------------------------|
+| purchase_id    | UUID     | no   |        | PK  | Identifiant unique de l'achat          |
+| user_id        | UUID     | no   |        | FK  | Identifiant unique de l'utilisateur    |
+| product_id     | UUID     | no   |        | FK  | Identifiant unique du produit          |
+| purchase_date  | DATETIME | no   |        |     | Date et heure de l'achat               |
+
+6. Table product_id
+
+| Column         | Type     | Null | Length | Key | Description                            |
+|----------------|----------|------|--------|-----|----------------------------------------|
+| product_id     | UUID     | no   |        | PK  | Identifiant unique de l'achat          |
+| quantity_lot   | UUID     | no   |        |     | Identifiant unique de l'utilisateur    |
+| is_real_money  | BOOLEAN  | no   |        |     | Identifiant unique du produit          |
+| purchase_date  | DATETIME | no   |        |     | Date et heure de l'achat               |
+
+
+6. Table UserColoredPixels
+
+| Column      | Type     | Null | Length | Key | Description                               |
+|-------------|----------|------|--------|-----|-------------------------------------------|
+| id          | UUID     | no   |        | PK  | Identifiant unique de la coloration       |
+| pixel_id    | UUID     | no   |        |     | Identifiant unique du pixel               |
+| user_id     | STRING   | no   |        | FK  | Identifiant unique de l'utilisateur       |
+| color       | STRING   | no   | 7      |     | Couleur en hexadécimal (#C8C8C8)          |
+| created_at  | DATETIME | no   |        |     | Date de création (coloriage)              |
+| expires_at  | DATETIME | no   |        |     | Date d'expiration                         |
+| is_active   | BOOLEAN  | no   |        |     | Statut du pixel (colorié ou non)          |
+
+
+7. Table UserActions
+
+| Column      | Type     | Null | Length | Key | Description                                   |
+|-------------|----------|------|--------|-----|-----------------------------------------------|
+| action_id   | STRING   | no   |        | PK  | Identifiant unique de l'action                |
+| user_id     | STRING   | no   |        | FK  | Identifiant unique de l'utilisateur           |
+| action_type | STRING   | no   |        |     | Type d'action (e.g., "coloring_pixel", "watching_ad", "purchase") |
+| details     | TEXT     | yes  |        |     | Détails de l'action                           |
+| timestamp   | DATETIME | no   |        |     | Date et heure de l'action                     |
+
+
+8. Table Notifications
+
+| Column          | Type     | Null | Length | Key | Description                                   |
+|-----------------|----------|------|--------|-----|-----------------------------------------------|
+| notification_id | STRING   | no   |        | PK  | Identifiant unique de la notification         |
+| user_id         | STRING   | no   |        | FK  | Identifiant unique de l'utilisateur           |
+| message         | TEXT     | no   |        |     | Contenu de la notification                    |
+| type            | STRING   | no   |        |     | Type de notification (e.g., 'pixel_reset', 'new_ad', 'idle_max') |
+| is_read         | BOOLEAN  | no   |        |     | Indique si la notification a été lue          |
+| timestamp       | DATETIME | no   |        |     | Date et heure de la notification              |
+
+
+9. Table Achievements
+
+| Column         | Type     | Null | Length | Key | Description                               |
+|----------------|----------|------|--------|-----|-------------------------------------------|
+| achievement_id | STRING   | no   |        | PK  | Identifiant unique de la récompense       |
+| user_id        | STRING   | no   |        | FK  | Identifiant unique de l'utilisateur       |
+| type           | STRING   | no   |        |     | Type de récompense                        |
+| description    | TEXT     | yes  |        |     | Description de la récompense              |
+| timestamp      | DATETIME | no   |        |     | Date et heure de l'obtention              |
+
+
+10. Table ErrorLogs
+
+| Column       | Type     | Null | Length | Key | Description                              |
+|--------------|----------|------|--------|-----|------------------------------------------|
+| error_id     | STRING   | no   |        | PK  | Identifiant unique de l'erreur           |
+| user_id      | STRING   | yes  |        | FK  | Identifiant unique de l'utilisateur      |
+| error_message| TEXT     | no   |        |     | Message d'erreur                         |
+| stack_trace  | TEXT     | yes  |        |     | Trace de l'erreur (si applicable)        |
+| timestamp    | DATETIME | no   |        |     | Date et heure de l'erreur                |
+
+
+11. Table UserPreferences
+
+| Column           | Type     | Null | Length | Key | Description                               |
+|------------------|----------|------|--------|-----|-------------------------------------------|
+| preference_id    | STRING   | no   |        | PK  | Identifiant unique de la préférence       |
+| user_id          | STRING   | no   |        | FK  | Identifiant unique de l'utilisateur       |
+| preference_type  | STRING   |      |        |     | Type de préférence (e.g., 'theme', 'notification') |                                          |
+| value            | TEXTE    |      |        |     | Valeur de la préférence                   |
+
+
+12. Table UserNotificationPreferences
+
+| Column              | Type     | Null | Length | Key | Description                               |
+|---------------------|----------|------|--------|-----|-------------------------------------------|
+| preference_id       | STRING   | no   |        | PK  | Identifiant unique de la préférence       |
+| user_id             | STRING   | no   |        | FK  | Identifiant unique de l'utilisateur       |
+| notification_type   | STRING   | no   |        |     | Type de notification (e.g., 'pixel_reset', 'new_ad', 'idle_max') |
+| web                 | BOOLEAN  | no   |        |     | Préférence pour les notifications web     |
+| android             | BOOLEAN  | no   |        |     |                                           |
+| iOS                 | BOOLEAN  | no   |        |     | Préférence pour les notifications iOS     | 
+
+| Column                | Type        | Description                               |
+|-----------------------|-------------|-------------------------------------------|
+| PreferenceID          | STRING      | Identifiant unique de la préférence       |
+| UUID                  | STRING      | Identifiant unique de l'utilisateur       |
+| NotificationType      | STRING      | Type de notification (e.g., 'pixel_reset', 'new_ad', 'idle_max') |
+| Web                   | BOOLEAN     | Préférence pour les notifications web     |
+| Android               | BOOLEAN     | Préférence pour les notifications Android |
+| iOS                   | BOOLEAN     | Préférence pour les notifications iOS     |
