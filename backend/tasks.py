@@ -1,7 +1,7 @@
 from celery import Celery
 from datetime import datetime, timezone
 from models import db, UserIdle
-from app import app, celery, redis_client  # Import app, celery, and redis_client from app.py
+from backend.app2 import app, celery, redis_client  # Import app, celery, and redis_client from app.py
 
 @celery.task
 def batch_update_connections():

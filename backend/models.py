@@ -22,6 +22,7 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     updated_at = db.Column(db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
     pixel_stock = db.Column(db.Integer, default=0)
+    preferred_language = db.Column(db.String(5), default='en')
 
     @property
     def password(self):

@@ -1,0 +1,12 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"X-Generator: Babel 2.9.1\n"
+"X-Babel: 2.9.1\n"
+
+msgid "Confirm your email"
+msgstr "Confirma tu correo electrónico"
+
+msgid "To confirm your email, please click on the following link: %(url)s"
+msgstr "Para confirmar tu correo electrónico, haz clic en el siguiente enlace: %(url)s"
