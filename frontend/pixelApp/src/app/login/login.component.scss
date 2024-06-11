@@ -1,113 +1,48 @@
-ion-content {
-  //--background: #000000;
+.login-content {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
+  height: 100vh; /* Assure que le contenu prend toute la hauteur de la page */
 }
 
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+.full-height {
+  height: 100%; /* Utilisé pour que ion-row prenne toute la hauteur disponible */
+}
+
+ion-card {
   width: 100%;
-  padding: 10px; // Ajouter du padding pour les petits écrans
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%; // Prend toute la largeur disponible
-  max-width: 500px; // Largeur maximale pour les grands écrans
 }
 
 .title-container {
-  //background-color: #16161650;
-  //color: #ffffff;
-  font-size: 5vw; // Utiliser des unités relatives pour la taille du texte
-  font-weight: bold;
   text-align: center;
-  padding: 2vw;
-  margin-bottom: 2vw; // Utiliser des unités relatives pour les marges
-  width: 100%; // Assurez-vous que le titre prenne toute la largeur du conteneur
-  box-sizing: border-box;
+  margin-bottom: 20px;
 }
 
 .login-container {
-  padding: 2vw;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  //background-color: #000000;
   width: 100%;
-  max-width: 400px; // Largeur maximale
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box; // Assurez-vous que le padding est inclus dans la largeur totale
-}
-
-form {
-  width: 100%; // Assurez-vous que le formulaire prenne toute la largeur du conteneur
 }
 
 ion-item {
-  width: 100%; // Assurez-vous que les éléments ioniques prennent toute la largeur disponible
-}
-
-ion-input {
-  font-size: 4vw; // Taille de texte responsive pour les champs de saisie
+  margin-bottom: 10px;
 }
 
 ion-button {
-  width: 100%; // Assurez-vous que le bouton prenne toute la largeur disponible
-  margin-top: 2vw; // Ajout d'un espace au-dessus du bouton
-  font-size: 4vw; // Taille de texte responsive pour le bouton
+  margin-top: 20px;
 }
 
 p {
-  margin: 2vw 0;
-  text-align: center; // Centrer le texte des paragraphes
-  font-size: 4vw; // Taille de texte responsive pour les paragraphes
+  text-align: center;
+  margin-top: 20px;
+}
+
+.link-container {
+  text-align: center;
+  margin-top: 20px;
 }
 
 a {
-  color: #007BFF;
+  color: var(--ion-color-primary);
   text-decoration: none;
   display: block;
-  text-align: center; // Centrer le lien
-  font-size: 4vw; // Taille de texte responsive pour les liens
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* Media Queries pour des tailles d'écran spécifiques */
-@media (min-width: 600px) {
-  .title-container {
-    font-size: 24px; // Taille de texte fixe pour les écrans plus grands
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-
-  .login-container {
-    padding: 20px;
-  }
-
-  /* Appliquer les styles spécifiquement à ion-input */
-  ion-input {
-    font-size: 16px; // Taille de texte fixe pour les écrans plus grands
-    --background: var(--input-background-color); // Appliquer la couleur de fond spécifique
-    --color: var(--input-text-color); // Appliquer la couleur de texte spécifique
-  }
-
-  /* Styles pour ion-button, p, a sans affecter le background et la couleur */
-  ion-button, p, a {
-    font-size: 16px; // Taille de texte fixe pour les écrans plus grands
-  }
+  margin-top: 10px;
 }

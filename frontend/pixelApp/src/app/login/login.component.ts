@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth/auth-service.service'; // Assurez-vous que le chemin est correct
+import { AuthService } from '../auth/auth-service.service';
 
 @Component({
   selector: 'app-login',

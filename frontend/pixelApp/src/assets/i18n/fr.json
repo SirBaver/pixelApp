@@ -1,15 +1,17 @@
 {
     "LOGIN_SIGN_IN": "Connexion / Inscription",
+    "EMAIL_ZONE": "Adresse e-mail",
     "USERNAME_ZONE": "Nom d'utilisateur",
     "PASSWORD_ZONE": "Mot de passe",
-    "LOGIN_BUTTON": "Connexion",
-    "SIGN_UP_BUTTON": "Inscription",
-    "FORGOT_PASSWORD": "Mot de passe oublié",
+    "LOGIN_BUTTON": "Se connecter",
+    "SIGN_UP_BUTTON": "S'inscrire",
+    "FORGOT_PASSWORD": "Mot de passe oublié ?",
     "NO_ACCOUNT": "Vous n'avez pas encore de compte ?",
     "SIGN_UP_NOW": "Créer un compte",
+    "RESET_PASSWORD": "Réinitialiser le mot de passe",
     "PROFILE": "Profil",
     "PREFERENCES": "Préférences",
-    "LOG_OUT": "Déconnexion",
+    "LOG_OUT": "Se déconnecter",
     "READY_TO_PLACE_PIXEL": "Prêt à placer un pixel, bibabu ?",
-    "LOGIN_TITLE": "Connexion"
+    "LOGIN_TITLE": "Se connecter"
 }
