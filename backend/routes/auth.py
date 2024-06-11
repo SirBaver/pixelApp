@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, session, current_app, url_for
+from flask import Blueprint, request, jsonify, session, current_app, url_for, redirect
 from flask_babel import lazy_gettext as _l, gettext, force_locale
 from flask_mail import Message
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -126,7 +126,7 @@ def verify_email():
     if user and not user.is_verified:
         user.is_verified = True
         db.session.commit()
-        return jsonify({'message': 'Your account has been verified successfully.'}), 200
+        return redirect('http://localhost:8100/home')  # Rediriger vers la page d'accueil
     else:
         return jsonify({'message': 'This account is already verified or does not exist.'}), 400
 

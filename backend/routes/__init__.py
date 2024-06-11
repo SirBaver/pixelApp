@@ -1,7 +1,6 @@
 # backend/routes/__init__.py
 from flask import Flask, request, g
-from extensions import db, mail_instance, babel
-from flask_babel import Babel
+from extensions import db, mail_instance, babel, cors
 import logging
 import os
 
@@ -25,6 +24,7 @@ def create_app():
     db.init_app(app)
     mail_instance.init_app(app)
     babel.init_app(app)
+    cors.init_app(app, resources={r"/auth/*": {"origins": "http://localhost:8100"}})  # Configurer CORS pour les routes d'authentification
 
     from routes.auth import auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
@@ -52,4 +52,3 @@ def create_app():
             logging.debug(f"Translations file not found: {translations_path}")
 
     return app
-
