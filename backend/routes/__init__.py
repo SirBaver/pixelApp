@@ -1,6 +1,8 @@
+# backend/routes/__init__.py
 from flask import Flask, request, g
 from extensions import db, mail_instance, babel
 from flask_babel import Babel
+from extensions import db  # Assurez-vous que le chemin d'importation est correct
 
 def create_app():
     app = Flask(__name__)

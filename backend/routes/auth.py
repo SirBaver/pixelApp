@@ -1,10 +1,12 @@
-from flask import Blueprint, request, jsonify, session
-from extensions import db, mail_instance, s
-from models import User
+from flask import Blueprint, request, jsonify, session, current_app, url_for
+from flask_babel import gettext, force_locale
+from flask_mail import Message
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_babel import gettext
 from datetime import datetime, timedelta
 import re
+
+from extensions import db, mail_instance, s
+from models import User
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -43,11 +45,11 @@ def register():
             return jsonify({'message': 'Database error'}), 500
 
         # Envoyer l'email de vérification
-        verification_url = f"http://localhost:5000/auth/verify_email?token={verification_token}"
+        verification_url = url_for('auth.verify_email', token=verification_token, _external=True)
         
-        # Utiliser la langue préférée pour l'email
-        msg = Message(gettext('Confirm your email', locale=preferred_language), sender='noreply@example.com', recipients=[mail])
-        msg.body = gettext('To confirm your email, please click on the following link: %(url)s', url=verification_url, locale=preferred_language)
+        with force_locale(preferred_language):
+            msg = Message(gettext('Confirm your email'), sender='noreply@example.com', recipients=[mail])
+            msg.body = gettext('To confirm your email, please click on the following link: %(url)s', url=verification_url)
 
         try:
             mail_instance.send(msg)
@@ -76,16 +78,21 @@ def resend_verification():
         if user.is_verified:
             return jsonify({'message': 'This account is already verified.'}), 400
 
+        # Récupérer la langue préférée de l'utilisateur
+        preferred_language = user.preferred_language
+
         # Générer un nouveau token de vérification
         verification_token = s.dumps(mail, salt='email-confirm')
         user.verification_token = verification_token
         db.session.commit()
         
         # Envoyer l'email de vérification
-        verification_url = f"http://localhost:5000/auth/verify_email?token={verification_token}"
-        msg = Message(gettext('Confirm your email'), sender='noreply@example.com', recipients=[mail])
-        msg.body = gettext('To confirm your email, please click on the following link: %(url)s', url=verification_url)
-        
+        verification_url = url_for('auth.verify_email', token=verification_token, _external=True)
+
+        with force_locale(preferred_language):
+            msg = Message(gettext('Confirm your email'), sender='noreply@example.com', recipients=[mail])
+            msg.body = gettext('To confirm your email, please click on the following link: %(url)s', url=verification_url)
+
         try:
             mail_instance.send(msg)
             print(f"Verification email resent to {mail}.")
@@ -153,8 +160,9 @@ def reset_password_request():
         
         # Envoyer l'email de réinitialisation
         reset_url = f"http://localhost:5000/auth/reset_password?token={reset_token}"
-        msg = Message(gettext('Reset Your Password'), sender='noreply@example.com', recipients=[mail])
-        msg.body = gettext('To reset your password, click the following link: %(url)s', url=reset_url)
+        with force_locale(user.preferred_language):
+            msg = Message(gettext('Reset Your Password'), sender='noreply@example.com', recipients=[mail])
+            msg.body = gettext('To reset your password, click the following link: %(url)s', url=reset_url)
         
         try:
             mail_instance.send(msg)

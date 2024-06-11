@@ -2,7 +2,7 @@ from datetime import datetime, timezone, timedelta
 from sqlalchemy.dialects.postgresql import UUID
 from uuid import uuid4
 from werkzeug.security import generate_password_hash, check_password_hash
-from database import db
+from extensions import db
 
 # 1 - Table User
 class User(db.Model):
