@@ -2,7 +2,10 @@
 from flask import Flask, request, g
 from extensions import db, mail_instance, babel
 from flask_babel import Babel
-from extensions import db  # Assurez-vous que le chemin d'importation est correct
+import logging
+import os
+
+logging.basicConfig(level=logging.DEBUG)
 
 def create_app():
     app = Flask(__name__)
@@ -17,6 +20,7 @@ def create_app():
     app.config['MAIL_PASSWORD'] = None
     app.config['BABEL_DEFAULT_LOCALE'] = 'en'
     app.config['BABEL_SUPPORTED_LOCALES'] = ['en', 'fr', 'es']
+    app.config['BABEL_TRANSLATION_DIRECTORIES'] = os.path.join(os.path.dirname(__file__), '..', 'translations')
 
     db.init_app(app)
     mail_instance.init_app(app)
@@ -28,10 +32,24 @@ def create_app():
     def get_locale():
         user = getattr(g, 'user', None)
         if user is not None:
+            logging.debug(f"Preferred language of user: {user.preferred_language}")
             return user.preferred_language
-        return request.accept_languages.best_match(app.config['BABEL_SUPPORTED_LOCALES'])
-    
+        locale = request.accept_languages.best_match(app.config['BABEL_SUPPORTED_LOCALES'])
+        logging.debug(f"Best matched locale: {locale}")
+        return locale
+
     babel.locale_selector_func = get_locale
+
+    logging.debug(f"Babel configuration: {app.config['BABEL_SUPPORTED_LOCALES']}, {app.config['BABEL_TRANSLATION_DIRECTORIES']}")
+
+    # Ajout de journaux pour vérifier le chargement des fichiers de traduction
+    for locale in app.config['BABEL_SUPPORTED_LOCALES']:
+        logging.debug(f"Loading translations for locale: {locale}")
+        translations_path = os.path.join(app.config['BABEL_TRANSLATION_DIRECTORIES'], locale, 'LC_MESSAGES', 'messages.mo')
+        if os.path.exists(translations_path):
+            logging.debug(f"Found translations file: {translations_path}")
+        else:
+            logging.debug(f"Translations file not found: {translations_path}")
 
     return app
 

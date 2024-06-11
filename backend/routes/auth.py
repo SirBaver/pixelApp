@@ -1,14 +1,24 @@
 from flask import Blueprint, request, jsonify, session, current_app, url_for
-from flask_babel import gettext, force_locale
+from flask_babel import lazy_gettext as _l, gettext, force_locale
 from flask_mail import Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 import re
+import logging
 
 from extensions import db, mail_instance, s
 from models import User
 
 auth_bp = Blueprint('auth', __name__)
+
+@auth_bp.route('/test_translation')
+def test_translation():
+    with force_locale('fr'):
+        logging.debug("Testing translation in language: fr")
+        translation = _l('Confirm your email')
+        logging.debug(f"Translation result: {translation}")
+        return str(translation)
+
 
 @auth_bp.route('/register', methods=['POST'])
 def register():
@@ -48,6 +58,7 @@ def register():
         verification_url = url_for('auth.verify_email', token=verification_token, _external=True)
         
         with force_locale(preferred_language):
+            logging.debug(f"Sending email in language: {preferred_language}")
             msg = Message(gettext('Confirm your email'), sender='noreply@example.com', recipients=[mail])
             msg.body = gettext('To confirm your email, please click on the following link: %(url)s', url=verification_url)
 
@@ -148,7 +159,7 @@ def reset_password_request():
     # Validation de l'email
     email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
     if not re.match(email_regex, mail):
-        return jsonify({'message': 'Invalid email format'}), 400
+        return jsonify({'message': gettext('Invalid email format')}), 400
     
     user = User.query.filter_by(mail=mail).first()
     if user:
@@ -167,12 +178,13 @@ def reset_password_request():
         try:
             mail_instance.send(msg)
             print(f"Password reset email sent to {mail}.")
-            return jsonify({'message': 'Password reset email has been sent. Please check your email.'}), 200
+            return jsonify({'message': gettext('Password reset email has been sent. Please check your email.')}), 200
         except Exception as e:
             print(f"Error sending email: {e}")
-            return jsonify({'message': 'Error sending email.'}), 500
+            return jsonify({'message': gettext('Error sending email.')}), 500
     else:
-        return jsonify({'message': 'Email not found'}), 404
+        return jsonify({'message': gettext('Email not found')}), 404
+
 
 @auth_bp.route('/reset_password', methods=['POST'])
 def reset_password():
@@ -183,7 +195,7 @@ def reset_password():
     try:
         mail = s.loads(token, salt='password-reset', max_age=3600)
     except (SignatureExpired, BadSignature):
-        return jsonify({'message': 'The token is invalid or has expired.'}), 400
+        return jsonify({'message': gettext('The token is invalid or has expired.')}), 400
 
     user = User.query.filter_by(mail=mail).first()
     if user and user.reset_token == token and user.reset_token_expiration > datetime.utcnow():
@@ -191,9 +203,10 @@ def reset_password():
         user.reset_token = None
         user.reset_token_expiration = None
         db.session.commit()
-        return jsonify({'message': 'Your password has been reset successfully.'}), 200
+        return jsonify({'message': gettext('Your password has been reset successfully.')}), 200
     else:
-        return jsonify({'message': 'Invalid token or the token has expired.'}), 400
+        return jsonify({'message': gettext('Invalid token or the token has expired.')}), 400
+
 
 @auth_bp.route('/logout')
 def logout():
