@@ -21,6 +21,14 @@ const routes: Routes = [
     path: 'registration-success',
     loadChildren: () => import('./registration-success/registration-success.module').then( m => m.RegistrationSuccessPageModule)
   },
+  {
+    path: 'password-reset',
+    loadChildren: () => import('./password-reset/password-reset.module').then(m => m.PasswordResetPageModule)
+  },  {
+    path: 'register-waiting',
+    loadChildren: () => import('./register-waiting/register-waiting.module').then( m => m.RegisterWaitingPageModule)
+  },
+
 
 
 

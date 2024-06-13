@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, session, current_app, url_for, re
 from flask_babel import lazy_gettext as _l, gettext, force_locale
 from flask_mail import Message
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import re
 import logging
 
@@ -159,18 +159,18 @@ def reset_password_request():
     # Validation de l'email
     email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
     if not re.match(email_regex, mail):
-        return jsonify({'message': gettext('Invalid email format')}), 400
+        return jsonify({'message': 'Invalid email format'}), 400
     
     user = User.query.filter_by(mail=mail).first()
     if user:
         # Générer un token de réinitialisation
         reset_token = s.dumps(mail, salt='password-reset')
         user.reset_token = reset_token
-        user.reset_token_expiration = datetime.utcnow() + timedelta(hours=1)
+        user.reset_token_expiration = datetime.now(timezone.utc) + timedelta(hours=1)
         db.session.commit()
         
         # Envoyer l'email de réinitialisation
-        reset_url = f"http://localhost:5000/auth/reset_password?token={reset_token}"
+        reset_url = f"http://localhost:5000/auth/password_reset?token={reset_token}"
         with force_locale(user.preferred_language):
             msg = Message(gettext('Reset Your Password'), sender='noreply@example.com', recipients=[mail])
             msg.body = gettext('To reset your password, click the following link: %(url)s', url=reset_url)
@@ -184,6 +184,23 @@ def reset_password_request():
             return jsonify({'message': gettext('Error sending email.')}), 500
     else:
         return jsonify({'message': gettext('Email not found')}), 404
+
+
+@auth_bp.route('/password_reset', methods=['GET'])
+def reset_password_page():
+    token = request.args.get('token')
+    if not token:
+        return jsonify({'message': 'Token is missing'}), 400
+    
+    try:
+        mail = s.loads(token, salt='password-reset', max_age=3600)
+    except (SignatureExpired, BadSignature):
+        return jsonify({'message': 'The token is invalid or has expired.'}), 400
+
+    # Redirigez l'utilisateur vers l'application frontend avec le token
+    return redirect(f'http://localhost:8100/password-reset?token={token}')
+
+
 
 
 @auth_bp.route('/reset_password', methods=['POST'])

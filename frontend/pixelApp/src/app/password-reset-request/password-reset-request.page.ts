@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core'; // Importer TranslateService
 
 @Component({
@@ -11,7 +13,7 @@ export class PasswordResetRequestPage implements OnInit {
   email: string = '';
   errorMessage: string = ''; // Déclarez la propriété errorMessage ici
 
-  constructor(private translate: TranslateService) { // Injecter TranslateService
+  constructor(private http: HttpClient, private router : Router , private translate: TranslateService) {
     console.log('PasswordResetRequestPage constructor');
   }
 
@@ -24,19 +26,26 @@ export class PasswordResetRequestPage implements OnInit {
     // Ajoutez ici la logique pour appeler votre API de demande de réinitialisation de mot de passe
     if (form.valid) {
       console.log('Form is valid');
-      // Simulation d'une demande de réinitialisation
-      // Remplacez cette partie par un appel réel à votre API
-      // Exemple:
-      // this.http.post('API_URL', { email: this.email }).subscribe(
-      //   response => {
-      //     // Gérer la réponse positive
-      //   },
-      //   error => {
-      //     this.translate.get('ERROR_OCCURRED').subscribe((res: string) => {
-      //       this.errorMessage = res;
-      //     });
-      //   }
-      // );
+      this.http.post('http://localhost:5000/auth/reset_password_request', { mail: this.email }).subscribe(
+        (response: any) => {
+          this.router.navigate(['/password-reset-waiting']);
+        },
+        (error: any) => {
+          if (error.status === 404) {
+            this.translate.get('ERROR_EMAIL_NOT_FOUND').subscribe((res: string) => {
+              this.errorMessage = res;
+            });
+          } else if (error.status === 400) {
+            this.translate.get('INVALID_EMAIL_ADDRESS').subscribe((res: string) => {
+              this.errorMessage = res;
+            });
+          } else {
+            this.translate.get('ERROR_OCCURRED').subscribe((res: string) => {
+              this.errorMessage = res;
+            });
+          }
+        }
+      );
 
       // Pour cet exemple, nous allons juste mettre un message d'erreur simulé
       this.translate.get('ERROR_OCCURRED').subscribe((res: string) => {

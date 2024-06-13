@@ -11,30 +11,33 @@
         <ion-card>
           <ion-card-content>
             <div class="title-container">
-              <h1 id="title">{{ 'REGISTER_TITLE' | translate }}</h1>
+              <h1 id="title">{{ 'register.REGISTER_TITLE' | translate }}</h1>
             </div>
             <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm">
               <ion-item>
-                <ion-input type="text" [(ngModel)]="username" name="username" [placeholder]="'USERNAME_ZONE' | translate" required></ion-input>
+                <ion-input type="text" [(ngModel)]="username" name="username" [placeholder]="'login.USERNAME_ZONE' | translate" required></ion-input>
               </ion-item>
               <ion-item>
-                <ion-input type="email" [(ngModel)]="email" name="email" [placeholder]="'EMAIL_ZONE' | translate" required></ion-input>
+                <ion-input type="email" [(ngModel)]="email" name="email" [placeholder]="'login.EMAIL_ZONE' | translate" required></ion-input>
               </ion-item>
               <ion-item>
-                <ion-input type="password" [(ngModel)]="password" name="password" [placeholder]="'PASSWORD_ZONE' | translate" required></ion-input>
+                <ion-input type="password" [(ngModel)]="password" name="password" [placeholder]="'login.PASSWORD_ZONE' | translate" required></ion-input>
               </ion-item>
               <ion-item>
-                <ion-label>{{ 'LANGUAGE' | translate }}</ion-label>
+                <ion-input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" [placeholder]="'register.CONFIRM_PASSWORD_ZONE' | translate" required></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label>{{ 'common.LANGUAGE' | translate }}</ion-label>
                 <ion-select [(ngModel)]="language" name="language" required>
                   <ion-select-option *ngFor="let lang of languages" [value]="lang.code">{{ lang.label | translate }}</ion-select-option>
                 </ion-select>
               </ion-item>
-              <ion-button expand="full" type="submit" [disabled]="!registerForm.form.valid">{{ 'REGISTER_BUTTON' | translate }}</ion-button>
+              <ion-button expand="full" type="submit" [disabled]="!registerForm.form.valid">{{ 'register.REGISTER_BUTTON' | translate }}</ion-button>
               <p *ngIf="errorMessage">{{ errorMessage }}</p>
               <ion-item-divider></ion-item-divider>
               <div class="link-container">
-                <p>{{ 'ALREADY_REGISTERED' | translate }}</p>
-                <a routerLink="/register">{{ 'LOGIN_NOW' | translate }}</a>
+                <p>{{ 'register.ALREADY_REGISTERED' | translate }}</p>
+                <a routerLink="/login">{{ 'login.LOGIN_NOW' | translate }}</a>
               </div>
             </form>
           </ion-card-content>

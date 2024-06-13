@@ -13,6 +13,7 @@ export class RegisterPage {
   email: string = '';
   username: string = '';
   password: string = '';
+  confirmPassword: string = '';
   language: string = '';
   errorMessage: string = '';
 
@@ -22,10 +23,20 @@ export class RegisterPage {
     { code: 'es', label: 'SPANISH' },
   ];
 
-  constructor(private http: HttpClient, private router: Router, private translate: TranslateService) { }
+  constructor(
+    private http: HttpClient, 
+    private router: Router, 
+    private translate: TranslateService) { }
 
   onSubmit(form: NgForm) {
     if (form.valid) {
+      if (this.password !== this.confirmPassword) {
+        this.translate.get('register.PASSWORDS_DO_NOT_MATCH').subscribe((res: string) => {
+          this.errorMessage = res;
+        });
+        return;
+      }
+
       const formData = {
         username: this.username,
         password: this.password,
@@ -43,19 +54,19 @@ export class RegisterPage {
           error: (error) => {
             console.error('Registration error', error); // Ajoutez ce log pour voir les détails de l'erreur
             if (error.status === 409 && error.error.message === 'Username already exists') {
-              this.translate.get('USERNAME_EXISTS').subscribe((res: string) => {
+              this.translate.get('register.USERNAME_EXISTS').subscribe((res: string) => {
                 this.errorMessage = res;
               });
             } else if (error.status === 409 && error.error.message === 'Email already exists') {
-              this.translate.get('EMAIL_EXISTS').subscribe((res: string) => {
+              this.translate.get('register.EMAIL_EXISTS').subscribe((res: string) => {
                 this.errorMessage = res;
               });
             } else if (error.status === 400 && error.error.message === 'Invalid email format') {
-              this.translate.get('INVALID_EMAIL_FORMAT').subscribe((res: string) => {
+              this.translate.get('register.INVALID_EMAIL_FORMAT').subscribe((res: string) => {
                 this.errorMessage = res;
               });
             } else {
-              this.translate.get('REGISTRATION_FAILED').subscribe((res: string) => {
+              this.translate.get('register.REGISTRATION_FAILED').subscribe((res: string) => {
                 this.errorMessage = res;
               });
             }
