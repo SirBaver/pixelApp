@@ -11,6 +11,13 @@ from models import User
 
 auth_bp = Blueprint('auth', __name__)
 
+@auth_bp.after_request
+def add_cors_headers(response):
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:8100')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+    return response
+
 @auth_bp.route('/test_translation')
 def test_translation():
     with force_locale('fr'):
@@ -72,7 +79,6 @@ def register():
     else:
         print("Missing username, password, or mail.")
         return jsonify({'message': 'Missing username, password, or mail'}), 422
-
 
 @auth_bp.route('/resend_verification', methods=['POST'])
 def resend_verification():
