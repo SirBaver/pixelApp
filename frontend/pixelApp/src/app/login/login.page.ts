@@ -6,10 +6,10 @@ import { AuthService } from '../auth/auth-service.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  templateUrl: './login.page.html',
+  styleUrls: ['./login.page.scss'],
 })
-export class LoginComponent {
+export class LoginPage {
   username: string = '';
   password: string = '';
   errorMessage: string = '';
@@ -31,5 +31,9 @@ export class LoginComponent {
         }
       );
     }
+  }
+
+  navigateToPasswordResetRequest() {
+    this.router.navigate(['/login/password-reset-request']);
   }
 }

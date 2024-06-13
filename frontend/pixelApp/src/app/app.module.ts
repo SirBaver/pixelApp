@@ -9,8 +9,6 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { UserPopoverComponent } from './user-popover/user-popover.component';
 import { LanguagePopoverComponent } from './language-popover/language-popover.component';
 
@@ -21,8 +19,6 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    RegisterComponent,
     UserPopoverComponent,
     LanguagePopoverComponent
   ],

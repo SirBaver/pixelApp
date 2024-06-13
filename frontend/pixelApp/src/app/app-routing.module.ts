@@ -1,34 +1,29 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component'; // Importez le LoginComponent ici
-import { RegisterComponent } from './register/register.component'; // Importez le RegisterComponent ici
 
 const routes: Routes = [
+  {path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
+  {path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule) },
+  {path: 'register', loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule) },
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: 'preference', loadChildren: () => import('./preference/preference.module').then( m => m.PreferencePageModule)},
+  {path: 'main', loadChildren: () => import('./main/main.module').then( m => m.MainPageModule)},
+  {path: 'profile', loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)},
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    path: 'password-reset-request',
+    loadChildren: () => import('./password-reset-request/password-reset-request.module').then( m => m.PasswordResetRequestPageModule)
   },
   {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-  { 
-    path : 'login', component: LoginComponent}, // Ajoutez une route pour le LoginComponent
-  { 
-    path: 'register', component: RegisterComponent },   {
-    path: 'preference',
-    loadChildren: () => import('./preference/preference.module').then( m => m.PreferencePageModule)
-  },  {
-    path: 'main',
-    loadChildren: () => import('./main/main.module').then( m => m.MainPageModule)
+    path: 'password-reset-waiting',
+    loadChildren: () => import('./password-reset-waiting/password-reset-waiting.module').then( m => m.PasswordResetWaitingPageModule)
   },
   {
-    path: 'profile',
-    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+    path: 'registration-success',
+    loadChildren: () => import('./registration-success/registration-success.module').then( m => m.RegistrationSuccessPageModule)
   },
 
-// Ajoutez une route pour le RegisterComponent
+
+
 ];
 
 @NgModule({

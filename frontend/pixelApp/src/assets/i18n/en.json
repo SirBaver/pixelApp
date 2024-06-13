@@ -1,17 +1,43 @@
 {
-    "LOGIN_SIGN_IN": "Login / Sign in",
-    "EMAIL_ZONE": "Email",
-    "USERNAME_ZONE": "Username",
-    "PASSWORD_ZONE": "Password",
-    "LOGIN_BUTTON": "Login",
-    "SIGN_UP_BUTTON": "Sign up",
-    "FORGOT_PASSWORD": "Forgot password ?",
-    "NO_ACCOUNT": "Don't have an account?",
-    "SIGN_UP_NOW": "Create an account",
-    "RESET_PASSWORD": "Reset password",
-    "PROFILE": "Profile",
-    "PREFERENCES": "Preferences",
-    "LOG_OUT": "Log Out",
-    "READY_TO_PLACE_PIXEL": "Ready to place a pixel?",
-    "LOGIN_TITLE": "Log In"
-}
+    "login": {
+        "LOGIN_SIGN_IN": "Login / Sign in",
+        "EMAIL_ZONE": "Email",
+        "USERNAME_ZONE": "Username",
+        "PASSWORD_ZONE": "Password",
+        "LOGIN_BUTTON": "Login",
+        "LOGIN_TITLE": "Log In",
+        "FORGOT_PASSWORD": "Forgot password ?",
+        "RESET_PASSWORD": "Reset password",
+        "NO_ACCOUNT": "Don't have an account?",
+        "SIGN_UP_NOW": "Create an account",
+        "ALREADY_REGISTERED": "Already registered ?",
+        "LOGIN_NOW": "Log in now"
+    },
+    "register": {
+        "REGISTER_TITLE": "Register",
+        "REGISTER_BUTTON": "Register",
+        "USERNAME_EXISTS": "Username already exists",
+        "REGISTRATION_FAILED": "Registration failed. Please try again.",
+        "FILL_REQUIRED_FIELDS": "Please fill all required fields"
+    },
+    "password_reset": {
+        "PASSWORD_RESET_TITLE": "Reset Password",
+        "INVALID_EMAIL_ADDRESS": "Invalid email address",
+        "ERROR_OCCURRED": "An error occurred"
+    },
+    "profile": {
+        "PROFILE": "Profile",
+        "PREFERENCES": "Preferences",
+        "LOG_OUT": "Log Out"
+    },
+    "home": {
+        "READY_TO_PLACE_PIXEL": "Ready to place a pixel?"
+    },
+    "common": {
+        "LANGUAGE": "Language",
+        "ENGLISH": "English",
+        "FRENCH": "French",
+        "SPANISH": "Spanish"
+    }
+  }
+  

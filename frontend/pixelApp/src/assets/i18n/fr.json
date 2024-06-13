@@ -1,17 +1,45 @@
 {
-    "LOGIN_SIGN_IN": "Connexion / Inscription",
-    "EMAIL_ZONE": "Adresse e-mail",
-    "USERNAME_ZONE": "Nom d'utilisateur",
-    "PASSWORD_ZONE": "Mot de passe",
-    "LOGIN_BUTTON": "Se connecter",
-    "SIGN_UP_BUTTON": "S'inscrire",
-    "FORGOT_PASSWORD": "Mot de passe oublié ?",
-    "NO_ACCOUNT": "Vous n'avez pas encore de compte ?",
-    "SIGN_UP_NOW": "Créer un compte",
-    "RESET_PASSWORD": "Réinitialiser le mot de passe",
-    "PROFILE": "Profil",
-    "PREFERENCES": "Préférences",
-    "LOG_OUT": "Se déconnecter",
-    "READY_TO_PLACE_PIXEL": "Prêt à placer un pixel, bibabu ?",
-    "LOGIN_TITLE": "Se connecter"
-}
+    "login": {
+        "LOGIN_SIGN_IN": "Connexion / Inscription",
+        "EMAIL_ZONE": "Adresse e-mail",
+        "USERNAME_ZONE": "Nom d'utilisateur",
+        "PASSWORD_ZONE": "Mot de passe",
+        "LOGIN_BUTTON": "Se connecter",
+        "LOGIN_TITLE": "Se connecter",
+        "FORGOT_PASSWORD": "Mot de passe oublié ?",
+        "RESET_PASSWORD": "Réinitialiser le mot de passe",
+        "NO_ACCOUNT": "Vous n'avez pas encore de compte ?",
+        "SIGN_UP_NOW": "Créer un compte",
+        "ALREADY_REGISTERED": "Déjà inscrit ?",
+        "LOGIN_NOW": "Connectez-vous maintenant"
+    },
+    "register": {
+        "REGISTER_TITLE": "S'inscrire",
+        "REGISTER_BUTTON": "S'inscrire",
+        "USERNAME_EXISTS": "Le nom d'utilisateur existe déjà",
+        "REGISTRATION_FAILED": "L'inscription a échoué. Veuillez réessayer.",
+        "FILL_REQUIRED_FIELDS": "Veuillez remplir tous les champs obligatoires"
+    },
+    "password_reset": {
+        "RESET_BUTTON" : "Réinitialiser",
+        "PASSWORD_RESET_TITLE": "Réinitialiser le mot de passe",
+        "INVALID_EMAIL_ADDRESS": "Adresse e-mail invalide",
+        "ERROR_OCCURRED": "Une erreur s'est produite",
+        "REMEMBER_PASSWORD": "Vous vous souvenez de votre mot de passe ?"
+    },
+    "profile": {
+        "PROFILE": "Profil",
+        "PREFERENCES": "Préférences",
+        "LOG_OUT": "Se déconnecter"
+    },
+    "home": {
+        "READY_TO_PLACE_PIXEL": "Prêt à placer un pixel ?"
+    },
+    "common": {
+        "LANGUAGE": "Langue",
+        "ENGLISH": "Anglais",
+        "FRENCH": "Français",
+        "SPANISH": "Espagnol"
+    }
+  }
+  
