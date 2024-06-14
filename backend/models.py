@@ -1,5 +1,6 @@
 from datetime import datetime, timezone, timedelta
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.types import JSON
 from uuid import uuid4
 from werkzeug.security import generate_password_hash, check_password_hash
 from extensions import db
@@ -34,6 +35,15 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self._password, password)
+
+class Session(db.Model):
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('user.id'), nullable=False)
+    data = db.Column(JSON, nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    expires_at = db.Column(db.DateTime)
+
+    user = db.relationship('User', backref=db.backref('sessions', lazy=True))
 
 # 2 - Table UserPixels -- Depreciated
 # class UserPixels(db.Model):

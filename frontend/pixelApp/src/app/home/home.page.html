@@ -1,6 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <!-- <ion-title>Grille Réactive Imbriquée</ion-title> -->
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        Logout
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -16,7 +21,7 @@
         <div class="box box-5 tall-box" data-label="grid">
           <ion-grid data-label="grid">
             <ion-row data-label="grid-box">
-              <ion-col sizer="12">
+              <ion-col size="12">
                 <div class="box box-7 grid-box">Grille de pixel</div>
               </ion-col>
             </ion-row>

@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { environment } from '../../environments/environment'; // Importer l'environnement
 
 @Component({
   selector: 'app-register',
@@ -43,12 +44,13 @@ export class RegisterPage {
 
       console.log('Form Submitted!', formData);
 
-      this.http.post('http://localhost:5000/auth/register', formData)
+      this.http.post(`${environment.apiUrl}/auth/register`, formData)
         .subscribe({
-          next: (response) => {
+          next: (response: any) => {
             console.log('Registration successful', response);
+            localStorage.setItem('session_id', response.session_id); // Stocker l'ID de session
             this.router.navigate(['/register/register-waiting']);
-            console.log('Redirection vers /register/register-waiting');    
+            console.log('Redirection vers /register/register-waiting');
           },
           error: (error) => {
             console.error('Registration error', error); // Ajoutez ce log pour voir les détails de l'erreur

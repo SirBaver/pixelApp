@@ -5,15 +5,18 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta, timezone
 import re
 import logging
+import os
+import uuid
 
 from extensions import db, mail_instance, s
-from models import User
+from models import User, Session
+
 
 auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.after_request
 def add_cors_headers(response):
-    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:8100')
+    response.headers.add('Access-Control-Allow-Origin', os.getenv('FRONTEND_URL'))
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
     return response
@@ -25,7 +28,6 @@ def test_translation():
         translation = _l('Confirm your email')
         logging.debug(f"Translation result: {translation}")
         return str(translation)
-
 
 @auth_bp.route('/register', methods=['POST'])
 def register():
@@ -61,6 +63,13 @@ def register():
             print(f"Database error: {e}")
             return jsonify({'message': 'Database error'}), 500
 
+        # Créer une session et y stocker l'adresse e-mail
+        session_id = str(uuid.uuid4())
+        expires_at = datetime.now(timezone.utc) + timedelta(hours=1)
+        new_session = Session(id=session_id, user_id=user.id, data={'mail': mail}, expires_at=expires_at)
+        db.session.add(new_session)
+        db.session.commit()
+
         # Envoyer l'email de vérification
         verification_url = url_for('auth.verify_email', token=verification_token, _external=True)
         
@@ -75,7 +84,7 @@ def register():
         except Exception as e:
             print(f"Error sending email: {e}")
 
-        return jsonify({'message': 'Success. Please check your email to confirm your registration.'}), 200
+        return jsonify({'message': 'Success. Please check your email to confirm your registration.', 'session_id': session_id}), 200
     else:
         print("Missing username, password, or mail.")
         return jsonify({'message': 'Missing username, password, or mail'}), 422
@@ -83,7 +92,13 @@ def register():
 @auth_bp.route('/resend_verification', methods=['POST'])
 def resend_verification():
     data = request.get_json()
-    mail = data.get('mail')
+    session_id = data.get('session_id')
+
+    session_obj = Session.query.get(session_id)
+    if not session_obj or session_obj.expires_at < datetime.now(timezone.utc):
+        return jsonify({'message': 'Session expired or invalid'}), 400
+
+    mail = session_obj.data.get('mail')
 
     # Validation de l'email
     email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
@@ -120,6 +135,46 @@ def resend_verification():
     else:
         return jsonify({'message': 'Email not found'}), 404
 
+@auth_bp.route('/resend_reset', methods=['POST'])
+def resend_reset():
+    data = request.get_json()
+    session_id = data.get('session_id')
+
+    session_obj = Session.query.get(session_id)
+    if not session_obj or session_obj.expires_at < datetime.now(timezone.utc):
+        return jsonify({'message': 'Session expired or invalid'}), 400
+
+    mail = session_obj.data.get('mail')
+
+    # Validation de l'email
+    email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+    if not re.match(email_regex, mail):
+        return jsonify({'message': 'Invalid email format'}), 400
+
+    user = User.query.filter_by(mail=mail).first()
+    if user:
+        # Générer un nouveau token de réinitialisation
+        reset_token = s.dumps(mail, salt='password-reset')
+        user.reset_token = reset_token
+        user.reset_token_expiration = datetime.now(timezone.utc) + timedelta(hours=1)
+        db.session.commit()
+        
+        # Envoyer l'email de réinitialisation
+        reset_url = f"{os.getenv('API_URL')}/auth/password_reset?token={reset_token}"
+        with force_locale(user.preferred_language):
+            msg = Message(gettext('Reset Your Password'), sender='noreply@example.com', recipients=[mail])
+            msg.body = gettext('To reset your password, click the following link: %(url)s', url=reset_url)
+
+        try:
+            mail_instance.send(msg)
+            print(f"Password reset email resent to {mail}.")
+            return jsonify({'message': 'Password reset email has been resent. Please check your email.'}), 200
+        except Exception as e:
+            print(f"Error sending email: {e}")
+            return jsonify({'message': 'Error sending email.'}), 500
+    else:
+        return jsonify({'message': 'Email not found'}), 404
+
 @auth_bp.route('/verify_email', methods=['GET'])
 def verify_email():
     token = request.args.get('token')
@@ -132,7 +187,7 @@ def verify_email():
     if user and not user.is_verified:
         user.is_verified = True
         db.session.commit()
-        return redirect('http://localhost:8100/home')  # Rediriger vers la page d'accueil
+        return redirect(f"{os.getenv('FRONTEND_URL')}/home")  # Rediriger vers la page d'accueil
     else:
         return jsonify({'message': 'This account is already verified or does not exist.'}), 400
 
@@ -175,8 +230,15 @@ def reset_password_request():
         user.reset_token_expiration = datetime.now(timezone.utc) + timedelta(hours=1)
         db.session.commit()
         
+        # Créer une session pour stocker l'adresse email
+        session_id = str(uuid.uuid4())
+        expires_at = datetime.now(timezone.utc) + timedelta(hours=1)
+        new_session = Session(id=session_id, user_id=user.id, data={'mail': mail}, expires_at=expires_at)
+        db.session.add(new_session)
+        db.session.commit()
+
         # Envoyer l'email de réinitialisation
-        reset_url = f"http://localhost:5000/auth/password_reset?token={reset_token}"
+        reset_url = f"{os.getenv('API_URL')}/auth/password_reset?token={reset_token}"
         with force_locale(user.preferred_language):
             msg = Message(gettext('Reset Your Password'), sender='noreply@example.com', recipients=[mail])
             msg.body = gettext('To reset your password, click the following link: %(url)s', url=reset_url)
@@ -184,13 +246,12 @@ def reset_password_request():
         try:
             mail_instance.send(msg)
             print(f"Password reset email sent to {mail}.")
-            return jsonify({'message': gettext('Password reset email has been sent. Please check your email.')}), 200
+            return jsonify({'message': gettext('Password reset email has been sent. Please check your email.'), 'session_id': session_id}), 200
         except Exception as e:
             print(f"Error sending email: {e}")
             return jsonify({'message': gettext('Error sending email.')}), 500
     else:
         return jsonify({'message': gettext('Email not found')}), 404
-
 
 @auth_bp.route('/password_reset', methods=['GET'])
 def reset_password_page():
@@ -204,10 +265,7 @@ def reset_password_page():
         return jsonify({'message': 'The token is invalid or has expired.'}), 400
 
     # Redirigez l'utilisateur vers l'application frontend avec le token
-    return redirect(f'http://localhost:8100/password-reset?token={token}')
-
-
-
+    return redirect(f"{os.getenv('FRONTEND_URL')}/password-reset?token={token}")
 
 @auth_bp.route('/reset_password', methods=['POST'])
 def reset_password():
@@ -221,7 +279,7 @@ def reset_password():
         return jsonify({'message': gettext('The token is invalid or has expired.')}), 400
 
     user = User.query.filter_by(mail=mail).first()
-    if user and user.reset_token == token and user.reset_token_expiration > datetime.utcnow():
+    if user and user.reset_token == token and user.reset_token_expiration > datetime.now(timezone.utc):
         user._password = generate_password_hash(new_password)
         user.reset_token = None
         user.reset_token_expiration = None
@@ -229,7 +287,6 @@ def reset_password():
         return jsonify({'message': gettext('Your password has been reset successfully.')}), 200
     else:
         return jsonify({'message': gettext('Invalid token or the token has expired.')}), 400
-
 
 @auth_bp.route('/logout')
 def logout():

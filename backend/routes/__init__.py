@@ -1,33 +1,39 @@
-# backend/routes/__init__.py
 from flask import Flask, request, g
 from extensions import db, mail_instance, babel, cors
 import logging
 import os
+from dotenv import load_dotenv
+
+# Charger les variables d'environnement
+load_dotenv()
 
 logging.basicConfig(level=logging.DEBUG)
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-    app.config['SECRET_KEY'] = '1234ABCD!'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['MAIL_SERVER'] = 'localhost'
-    app.config['MAIL_PORT'] = 1025
-    app.config['MAIL_USE_TLS'] = False
-    app.config['MAIL_USE_SSL'] = False
-    app.config['MAIL_USERNAME'] = None
-    app.config['MAIL_PASSWORD'] = None
-    app.config['BABEL_DEFAULT_LOCALE'] = 'en'
-    app.config['BABEL_SUPPORTED_LOCALES'] = ['en', 'fr', 'es']
-    app.config['BABEL_TRANSLATION_DIRECTORIES'] = os.path.join(os.path.dirname(__file__), '..', 'translations')
+    app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+    app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT'))
+    app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS') == 'True'
+    app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL') == 'True'
+    app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+    app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+    app.config['BABEL_DEFAULT_LOCALE'] = os.getenv('BABEL_DEFAULT_LOCALE')
+    app.config['BABEL_SUPPORTED_LOCALES'] = os.getenv('BABEL_SUPPORTED_LOCALES').split(',')
+    app.config['BABEL_TRANSLATION_DIRECTORIES'] = os.getenv('BABEL_TRANSLATION_DIRECTORIES')
 
     db.init_app(app)
     mail_instance.init_app(app)
     babel.init_app(app)
-    cors.init_app(app, resources={r"/auth/*": {"origins": "http://localhost:8100"}})  # Configurer CORS pour les routes d'authentification
+    cors.init_app(app, resources={r"/*": {"origins": "http://localhost:8100"}})  # Configurer CORS pour toutes les routes
 
     from routes.auth import auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
+
+    from routes.session import session_bp
+    app.register_blueprint(session_bp, url_prefix='/session')
 
     def get_locale():
         user = getattr(g, 'user', None)

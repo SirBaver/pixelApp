@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core'; // Importer TranslateService
+import { environment } from '../../environments/environment'; // Importer l'environnement
 
 @Component({
   selector: 'app-password-reset-request',
@@ -13,7 +14,7 @@ export class PasswordResetRequestPage implements OnInit {
   email: string = '';
   errorMessage: string = ''; // Déclarez la propriété errorMessage ici
 
-  constructor(private http: HttpClient, private router : Router , private translate: TranslateService) {
+  constructor(private http: HttpClient, private router: Router, private translate: TranslateService) {
     console.log('PasswordResetRequestPage constructor');
   }
 
@@ -26,8 +27,9 @@ export class PasswordResetRequestPage implements OnInit {
     // Ajoutez ici la logique pour appeler votre API de demande de réinitialisation de mot de passe
     if (form.valid) {
       console.log('Form is valid');
-      this.http.post('http://localhost:5000/auth/reset_password_request', { mail: this.email }).subscribe(
+      this.http.post(`${environment.apiUrl}/auth/reset_password_request`, { mail: this.email }).subscribe(
         (response: any) => {
+          localStorage.setItem('session_id', response.session_id); // Stocker l'ID de session
           this.router.navigate(['/password-reset-waiting']);
         },
         (error: any) => {
