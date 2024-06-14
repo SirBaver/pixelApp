@@ -1,7 +1,9 @@
 {
-  "name": "pixelApp",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
+  "name": "myapp",
+  "integrations": {},
+  "type": "angular",
+  "ssl": {
+    "key": "../certificat_dev/key.pem",
+    "cert": "../certificat_dev/cert.pem"
+  }
 }

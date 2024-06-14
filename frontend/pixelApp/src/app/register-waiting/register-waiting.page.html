@@ -1,13 +1,18 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>register-waiting</ion-title>
+    <ion-title>{{ 'register.CHECK_EMAIL' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">register-waiting</ion-title>
+      <ion-title size="large">{{ 'register.CHECK_EMAIL' | translate }}</ion-title>
     </ion-toolbar>
   </ion-header>
+  <div class="ion-padding">
+    <p>{{ 'register.CHECK_EMAIL_MESSAGE' | translate }}</p>
+    <ion-button expand="full" (click)="resendEmail()">{{ 'register.RESEND_EMAIL' | translate }}</ion-button>
+    <p *ngIf="errorMessage">{{ errorMessage }}</p>
+  </div>
 </ion-content>

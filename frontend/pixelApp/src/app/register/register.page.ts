@@ -18,15 +18,12 @@ export class RegisterPage {
   errorMessage: string = '';
 
   languages = [
-    { code: 'en', label: 'ENGLISH' },
-    { code: 'fr', label: 'FRENCH' },
-    { code: 'es', label: 'SPANISH' },
+    { code: 'en', label: 'common.ENGLISH' },
+    { code: 'fr', label: 'common.FRENCH' },
+    { code: 'es', label: 'common.SPANISH' },
   ];
 
-  constructor(
-    private http: HttpClient, 
-    private router: Router, 
-    private translate: TranslateService) { }
+  constructor(private http: HttpClient, private router: Router, private translate: TranslateService) { }
 
   onSubmit(form: NgForm) {
     if (form.valid) {
@@ -43,13 +40,15 @@ export class RegisterPage {
         mail: this.email,
         preferred_language: this.language
       };
+
       console.log('Form Submitted!', formData);
 
       this.http.post('http://localhost:5000/auth/register', formData)
         .subscribe({
           next: (response) => {
             console.log('Registration successful', response);
-            this.router.navigate(['/login']);
+            this.router.navigate(['/register/register-waiting']);
+            console.log('Redirection vers /register/register-waiting');    
           },
           error: (error) => {
             console.error('Registration error', error); // Ajoutez ce log pour voir les détails de l'erreur

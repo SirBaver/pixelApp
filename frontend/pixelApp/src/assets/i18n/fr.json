@@ -19,7 +19,15 @@
         "USERNAME_EXISTS": "Le nom d'utilisateur existe déjà",
         "REGISTRATION_FAILED": "L'inscription a échoué. Veuillez réessayer.",
         "ALREADY_REGISTERED": "Déjà inscrit ?",
-        "FILL_REQUIRED_FIELDS": "Veuillez remplir tous les champs obligatoires"
+        "FILL_REQUIRED_FIELDS": "Veuillez remplir tous les champs obligatoires",
+        "EMAIL_EXISTS": "L'adresse e-mail existe déjà",
+        "INVALID_EMAIL_ADDRESS": "Adresse e-mail invalide",
+        "PASSWORDS_DO_NOT_MATCH": "Les mots de passe ne correspondent pas",
+        "REGISTERED_SUCCESSFULLY": "Inscrit avec succès",
+        "CHECK_EMAIL": "Un email a été envoyé. Veuillez vérifier votre boîte de réception et vos spams. Si vous ne recevez rien, vous pouvez renvoyer l'email.",
+        "RESEND_EMAIL": "Renvoyer l'email"
+        
+    
     },
     "password_reset": {
         "RESET_BUTTON" : "Réinitialiser",

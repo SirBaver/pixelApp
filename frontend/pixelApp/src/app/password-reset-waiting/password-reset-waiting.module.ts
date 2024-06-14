@@ -5,7 +5,6 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { PasswordResetWaitingPageRoutingModule } from './password-reset-waiting-routing.module';
-
 import { PasswordResetWaitingPage } from './password-reset-waiting.page';
 
 @NgModule({
