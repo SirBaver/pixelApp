@@ -10,3 +10,30 @@ msgstr "Confirm your email"
 
 msgid "To confirm your email, please click on the following link: %(url)s"
 msgstr "To confirm your email, please click on the following link: %(url)s"
+
+msgid "Reset Your Password"
+msgstr "Reset Your Password"
+
+msgid "To reset your password, click the following link: %(url)s"
+msgstr "To reset your password, click the following link: %(url)s"
+
+msgid "Invalid email format"
+msgstr "Invalid email format"
+
+msgid "Password reset email has been sent. Please check your email."
+msgstr "Password reset email has been sent. Please check your email."
+
+msgid "Error sending email."
+msgstr "Error sending email."
+
+msgid "Email not found"
+msgstr "Email not found"
+
+msgid "The token is invalid or has expired."
+msgstr "The token is invalid or has expired."
+
+msgid "Your password has been reset successfully."
+msgstr "Your password has been reset successfully."
+
+msgid "Invalid token or the token has expired."
+msgstr "Invalid token or the token has expired."

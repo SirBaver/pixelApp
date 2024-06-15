@@ -11,12 +11,12 @@ session_bp = Blueprint('session', __name__)
 # Configurer le logger
 logging.basicConfig(level=logging.DEBUG)
 
-@session_bp.after_request
-def add_cors_headers(response):
-    response.headers.add('Access-Control-Allow-Origin', os.getenv('FRONTEND_URL'))
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
-    return response
+# @session_bp.after_request
+# def add_cors_headers(response):
+#     response.headers.add('Access-Control-Allow-Origin', os.getenv('FRONTEND_URL'))
+#     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+#     response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+#     return response
 
 @session_bp.route('/create_session', methods=['POST'])
 def create_session():

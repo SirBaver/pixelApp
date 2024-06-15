@@ -5,5 +5,12 @@
   "ssl": {
     "key": "../certificat_dev/key.pem",
     "cert": "../certificat_dev/cert.pem"
-  }
+  },
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "https://localhost:5000",
+      "secure": false
+    }
+  ]
 }

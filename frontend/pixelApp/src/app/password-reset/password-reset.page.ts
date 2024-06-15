@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../../environments/environment';
 
-
 @Component({
   selector: 'app-password-reset',
   templateUrl: './password-reset.page.html',
@@ -37,7 +36,7 @@ export class PasswordResetPage {
         return;
       }
 
-      this.http.post(`${environment.apiUrl}/auth/resend_reset`, { token: this.token, new_password: this.newPassword }).subscribe(
+      this.http.post(`${environment.apiUrl}/api/auth/reset_password`, { token: this.token, new_password: this.newPassword }).subscribe(
         (response: any) => {
           this.router.navigate(['/home']);
         },

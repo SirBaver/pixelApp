@@ -1,13 +1,10 @@
-from flask import Flask, request, g
-from extensions import db, mail_instance, babel, cors
-import logging
+from flask import Flask, request
+from flask_babel import Babel, gettext, force_locale
+from extensions import db, mail_instance, babel, cors, migrate
 import os
 from dotenv import load_dotenv
 
-# Charger les variables d'environnement
 load_dotenv()
-
-logging.basicConfig(level=logging.DEBUG)
 
 def create_app():
     app = Flask(__name__)
@@ -24,37 +21,48 @@ def create_app():
     app.config['BABEL_SUPPORTED_LOCALES'] = os.getenv('BABEL_SUPPORTED_LOCALES').split(',')
     app.config['BABEL_TRANSLATION_DIRECTORIES'] = os.getenv('BABEL_TRANSLATION_DIRECTORIES')
 
+    app.logger.debug(f"Babel default locale: {app.config['BABEL_DEFAULT_LOCALE']}")
+    app.logger.debug(f"Babel supported locales: {app.config['BABEL_SUPPORTED_LOCALES']}")
+    app.logger.debug(f"Babel translation directories: {app.config['BABEL_TRANSLATION_DIRECTORIES']}")
+
+    cors.init_app(app, resources={r"/*": {"origins": os.getenv('FRONTEND_URL'), "allow_headers": ["Content-Type", "Authorization"], "supports_credentials": True}})
+
     db.init_app(app)
     mail_instance.init_app(app)
     babel.init_app(app)
-    cors.init_app(app, resources={r"/*": {"origins": os.getenv('FRONTEND_URL')}})  # Configurer CORS pour toutes les routes
-    
-    from routes.auth import auth_bp
-    app.register_blueprint(auth_bp, url_prefix='/auth')
-
-    from routes.session import session_bp
-    app.register_blueprint(session_bp, url_prefix='/session')
+    migrate.init_app(app, db)
 
     def get_locale():
-        user = getattr(g, 'user', None)
-        if user is not None:
-            logging.debug(f"Preferred language of user: {user.preferred_language}")
-            return user.preferred_language
-        locale = request.accept_languages.best_match(app.config['BABEL_SUPPORTED_LOCALES'])
-        logging.debug(f"Best matched locale: {locale}")
-        return locale
+        best_match = request.accept_languages.best_match(app.config['BABEL_SUPPORTED_LOCALES'])
+        app.logger.debug(f"Best matched locale: {best_match}")
+        return best_match
 
     babel.locale_selector_func = get_locale
 
-    logging.debug(f"Babel configuration: {app.config['BABEL_SUPPORTED_LOCALES']}, {app.config['BABEL_TRANSLATION_DIRECTORIES']}")
+    from routes.auth import auth_bp
+    from routes.session import session_bp
 
-    # Ajout de journaux pour vérifier le chargement des fichiers de traduction
-    for locale in app.config['BABEL_SUPPORTED_LOCALES']:
-        logging.debug(f"Loading translations for locale: {locale}")
-        translations_path = os.path.join(app.config['BABEL_TRANSLATION_DIRECTORIES'], locale, 'LC_MESSAGES', 'messages.mo')
-        if os.path.exists(translations_path):
-            logging.debug(f"Found translations file: {translations_path}")
-        else:
-            logging.debug(f"Translations file not found: {translations_path}")
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(session_bp, url_prefix='/session')
+
+    @app.route('/test_translation')
+    def test_translation():
+        preferred_language = 'fr'
+        with force_locale(preferred_language):
+            translated_text = gettext('Reset Your Password')
+            app.logger.debug(f"Translated text: {translated_text}")
+            return translated_text
+
+    @app.route('/test_manual_translation')
+    def test_manual_translation():
+        from babel.support import Translations
+
+        preferred_language = 'fr'
+        translation_dir = os.path.join(os.path.dirname(__file__), '..', os.getenv('BABEL_TRANSLATION_DIRECTORIES'))
+        translations = Translations.load(translation_dir, [preferred_language])
+        translated_text = translations.gettext('Reset Your Password')
+
+        app.logger.debug(f"Manually translated text: {translated_text}")
+        return translated_text
 
     return app

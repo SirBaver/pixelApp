@@ -11,10 +11,3 @@ babel = Babel()
 cors = CORS()
 migrate = Migrate()
 s = URLSafeTimedSerializer('1234ABCD!')
-
-def init_app(app):
-    db.init_app(app)
-    mail_instance.init_app(app)
-    babel.init_app(app)
-    cors.init_app(app)
-    migrate.init_app(app, db)
