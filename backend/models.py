@@ -5,7 +5,7 @@ from uuid import uuid4
 from werkzeug.security import generate_password_hash, check_password_hash
 from extensions import db
 
-# 1 - Table User
+# Table User
 class User(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     google_id = db.Column(db.String(120), unique=True, nullable=True)
@@ -36,12 +36,13 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self._password, password)
 
+# Table Session
 class Session(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('user.id'), nullable=False)
-    data = db.Column(JSON, nullable=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    expires_at = db.Column(db.DateTime)
+    data = db.Column(db.JSON, nullable=True)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))  # Ajouter timezone.utc
+    expires_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc) + timedelta(hours=1))  # Ajouter timezone.utc
 
     user = db.relationship('User', backref=db.backref('sessions', lazy=True))
 

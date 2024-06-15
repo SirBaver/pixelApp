@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { environment } from '../../environments/environment';
+
 
 @Component({
   selector: 'app-password-reset',
@@ -35,7 +37,7 @@ export class PasswordResetPage {
         return;
       }
 
-      this.http.post('http://localhost:5000/auth/reset_password', { token: this.token, new_password: this.newPassword }).subscribe(
+      this.http.post(`${environment.apiUrl}/auth/resend_reset`, { token: this.token, new_password: this.newPassword }).subscribe(
         (response: any) => {
           this.router.navigate(['/home']);
         },

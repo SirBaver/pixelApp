@@ -22,4 +22,12 @@ export class SessionService {
   deleteSession(sessionId: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/session/delete_session/${sessionId}`);
   }
+
+  resetPasswordRequest(mail: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/reset_password_request`, { mail });
+  }
+
+  resendReset(sessionId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/resend_reset`, { session_id: sessionId });
+  }
 }

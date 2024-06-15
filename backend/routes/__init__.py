@@ -27,8 +27,8 @@ def create_app():
     db.init_app(app)
     mail_instance.init_app(app)
     babel.init_app(app)
-    cors.init_app(app, resources={r"/*": {"origins": "http://localhost:8100"}})  # Configurer CORS pour toutes les routes
-
+    cors.init_app(app, resources={r"/*": {"origins": os.getenv('FRONTEND_URL')}})  # Configurer CORS pour toutes les routes
+    
     from routes.auth import auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
