@@ -102,7 +102,6 @@ def verify_email():
         return jsonify({'message': 'This account is already verified or does not exist.'}), 400
 
 @auth_bp.route('/resend_verification', methods=['POST'])
-#@cross_origin(origins=os.getenv('FRONTEND_URL'))
 def resend_verification():
     data = request.get_json()
     session_id_str = data.get('session_id')
@@ -149,23 +148,28 @@ def resend_verification():
         user.verification_token = verification_token
         db.session.commit()
 
-        # Envoyer l'email de vérification
-        verification_url = url_for('auth.verify_email', token=verification_token, _external=True)
+        # Charger et utiliser manuellement les traductions
+        translation_dir = os.path.join(os.path.dirname(__file__), '..', os.getenv('BABEL_TRANSLATION_DIRECTORIES'))
+        translations = Translations.load(translation_dir, [preferred_language])
+        subject = translations.gettext('Confirm your email')
+        body = translations.gettext('To confirm your email, please click on the following link: %(url)s') % {'url': url_for('auth.verify_email', token=verification_token, _external=True)}
 
-        with force_locale(preferred_language):
-            msg = Message(gettext('Confirm your email'), sender='noreply@example.com', recipients=[mail])
-            msg.body = gettext('To confirm your email, please click on the following link: %(url)s', url=verification_url)
+        msg = Message(subject, sender='noreply@example.com', recipients=[mail])
+        msg.body = body
+
+        logging.debug(f"Email subject: {msg.subject}")
+        logging.debug(f"Email body: {msg.body}")
 
         try:
             mail_instance.send(msg)
             logging.debug(f"Verification email resent to {mail}.")
-            return jsonify({'message': 'Verification email has been resent. Please check your email.'}), 200
+            return jsonify({'message': translations.gettext('Verification email has been resent. Please check your email.')}), 200
         except Exception as e:
             logging.error(f"Error sending email: {e}")
-            return jsonify({'message': 'Error sending email.'}), 500
+            return jsonify({'message': translations.gettext('Error sending email.')}), 500
     else:
         logging.error("Email not found")
-        return jsonify({'message': 'Email not found'}), 404
+        return jsonify({'message': translations.gettext('Email not found')}), 404
 
 @auth_bp.route('/reset_password_request', methods=['POST'])
 def reset_password_request():
@@ -195,7 +199,7 @@ def reset_password_request():
             db.session.commit()
 
             # Envoyer l'email de réinitialisation
-            reset_url = f"{os.getenv('API_URL')}/password_reset?token={reset_token}"
+            reset_url = f"{os.getenv('FRONTEND_URL')}/password-reset?token={reset_token}"
             preferred_language = user.preferred_language
             
             # Charger et utiliser manuellement les traductions
@@ -224,6 +228,20 @@ def reset_password_request():
         logging.error(f"Email not found: {mail}")
         return jsonify({'message': translations.gettext('Email not found')}), 404
 
+@auth_bp.route('/password_reset', methods=['GET'])
+def reset_password_page():
+    token = request.args.get('token')
+    if not token:
+        return jsonify({'message': 'Token is missing'}), 400
+    
+    try:
+        mail = s.loads(token, salt='password-reset', max_age=3600)
+    except (SignatureExpired, BadSignature):
+        return jsonify({'message': 'The token is invalid or has expired.'}), 400
+
+    # Redirigez l'utilisateur vers l'application frontend avec le token
+    return redirect(f"{os.getenv('FRONTEND_URL')}/password-reset?token={token}")
+
 @auth_bp.route('/reset_password', methods=['POST'])
 def reset_password():
     logging.debug("reset_password endpoint called.")
@@ -248,6 +266,10 @@ def reset_password():
     if not user:
         logging.error("User not found.")
         return jsonify({'message': 'User not found'}), 404
+
+    # Ensure reset_token_expiration is offset-aware
+    if user.reset_token_expiration.tzinfo is None:
+        user.reset_token_expiration = user.reset_token_expiration.replace(tzinfo=timezone.utc)
 
     if user.reset_token != token or user.reset_token_expiration < datetime.now(timezone.utc):
         logging.error("Invalid token or the token has expired.")
@@ -306,22 +328,26 @@ def resend_reset():
         user.reset_token_expiration = datetime.now(timezone.utc) + timedelta(hours=1)
         db.session.commit()
 
-        reset_url = f"{os.getenv('FRONTEND_URL')}/auth/password_reset?token={reset_token}"
+        reset_url = f"{os.getenv('FRONTEND_URL')}/password-reset?token={reset_token}"
+        
+        translation_dir = os.path.join(os.path.dirname(__file__), '..', os.getenv('BABEL_TRANSLATION_DIRECTORIES'))
+        translations = Translations.load(translation_dir, [preferred_language])
+        subject = translations.gettext('Reset Your Password')
+        body = translations.gettext('To reset your password, click the following link: %(url)s') % {'url': reset_url}
 
-        with force_locale(preferred_language):
-            msg = Message(gettext('Reset Your Password'), sender='noreply@example.com', recipients=[mail])
-            msg.body = gettext('To reset your password, click the following link: %(url)s', url=reset_url)
+        msg = Message(subject, sender='noreply@example.com', recipients=[mail])
+        msg.body = body
 
         try:
             mail_instance.send(msg)
             logging.debug(f"Password reset email resent to {mail}.")
-            return jsonify({'message': 'Password reset email has been resent. Please check your email.'}), 200
+            return jsonify({'message': translations.gettext('Password reset email has been resent. Please check your email.')}), 200
         except Exception as e:
             logging.error(f"Error sending email: {e}")
-            return jsonify({'message': 'Error sending email.'}), 500
+            return jsonify({'message': translations.gettext('Error sending email.')}), 500
     else:
         logging.error("Email not found")
-        return jsonify({'message': 'Email not found'}), 404
+        return jsonify({'message': translations.gettext('Email not found')}), 404
 
 @auth_bp.route('/login', methods=['POST'])
 #@cross_origin(origins=os.getenv('FRONTEND_URL'))

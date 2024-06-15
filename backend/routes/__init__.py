@@ -1,8 +1,10 @@
 from flask import Flask, request
 from flask_babel import Babel, gettext, force_locale
+from flask_session import Session
 from extensions import db, mail_instance, babel, cors, migrate
 import os
 from dotenv import load_dotenv
+
 
 load_dotenv()
 

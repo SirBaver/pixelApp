@@ -36,7 +36,7 @@ export class PasswordResetPage {
         return;
       }
 
-      this.http.post(`${environment.apiUrl}/api/auth/reset_password`, { token: this.token, new_password: this.newPassword }).subscribe(
+      this.http.post(`${environment.apiUrl}/auth/reset_password`, { token: this.token, new_password: this.newPassword }).subscribe(
         (response: any) => {
           this.router.navigate(['/home']);
         },
